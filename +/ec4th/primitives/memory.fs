@@ -39,6 +39,23 @@ defined? cells 0= cell 2 = and [IF]
 		2*
 	[ [THEN] drop ] ;
 
+\ cell/ is needed for depth, on 16 bit systems its identical to 2/
+
+1 cells 2 = [IF]
+| ' 2/ Alias cell/
+[ELSE]
+: cell/
+	[ cell 2/ dup [IF] ]
+		2/
+	[ [THEN] 2/ dup [IF] ]
+		2/
+	[ [THEN] 2/ dup [IF] ]
+		2/
+	[ [THEN] 2/ dup [IF] ]
+		2/
+	[ [THEN] drop ] ;
+[THEN]
+
 : aligned ( c_addr -- a_addr ) \ core 
     [ cell 1- ] Literal + [ -1 cells ] Literal and ;
 

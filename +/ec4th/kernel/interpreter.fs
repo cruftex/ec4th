@@ -274,10 +274,11 @@ const Create bases   10 ,   2 ,   A , 100 ,
     THEN ;
 
 : ?stack ( ?? -- ?? ) \ gforth
-    sp@ sp0 @ u> IF
-        [ unlock data-stack borders nip lock ] literal sp!
-        -4 throw  
-    THEN
+    [ e? stack-grows-upwards [IF] ]
+        sp@ sp0 @ u< IF sp0 @ sp! -4 throw  THEN
+    [ [ELSE] ]
+        sp@ sp0 @ u> IF sp0 @ sp! -4 throw  THEN
+    [ [THEN] ]
     [ has? floating [IF] ]
         fp@ fp0 @ u> IF  -&45 throw  THEN
     [ [THEN] ] ; 

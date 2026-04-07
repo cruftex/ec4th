@@ -8,25 +8,32 @@ s" output/ec4th-arduino-nano-regular.sym" r/w create-file throw value fd-symbol-
 
 include +/ec4th/cross/cross.fs
 
-
 unlock
 
 0 Constant rom-at-0000
 
-
 rom-at-0000 [IF]
+\ FIXME: why 7ff?
 $c100 $07ff region ram-dictionary
 $0000 $ffff region rom-dictionary
 [ELSE]
-\ FIXME: why 7ff?
 $0100 $0800 region ram-dictionary
 $8000 $8000 region rom-dictionary
 [THEN]
 
-\ return stack needs to be quite deep depending on the 
-\ prmitives
+lock e? stack-grows-upwards unlock
+[IF]
+
+ram-dictionary $60 steal-from-end region return-stack
+
+[ELSE]
+
+\ return stack needs to be quite deep depending on the prmitives
 ram-dictionary $40 steal-from-end region return-stack
 ram-dictionary $40 steal-from-end region data-stack
+
+[THEN]
+
 \ FIXME: optimise tib input ring buffer
 \ on Arduino this region is used for the usart input ring buffer 
 \ make it longer than an input line, so one line is buffered while compiling
@@ -35,7 +42,6 @@ ram-dictionary 90 steal-from-end region tib-region
 setup-target
 
 lock
-
 
 include +/ec4th/target/atmega328.fs
 include +/ec4th/target/avr/f83search.fs
@@ -105,7 +111,7 @@ include +/ec4th/boot/mirror.fs
       cr ." ===> Input overrun, press Ctrl-C <===" cr 
       \ this loop is expected to read faster then we receive with 115k, so
       \ we don't see repeated overrun lines
-      BEGIN key? IF key drop THEN AGAIN
+      BEGIN key drop AGAIN
     THEN
     quit-error
   ELSE 
@@ -114,7 +120,7 @@ include +/ec4th/boot/mirror.fs
   THEN
   bye ;
 
-\ vektor belegen
+\ set start ip
  ' boot >body init-ip !
 
  unlock

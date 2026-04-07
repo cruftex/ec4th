@@ -1186,6 +1186,7 @@ true DefaultValue f83headerstring
 \G If true name field length is a byte, a cell otherwise
 
 true DefaultValue control-rack
+
 [THEN]
 
 true DefaultValue gforthcross
@@ -1204,6 +1205,14 @@ false DefaultValue rom-value
 \ Same thing as in rom-value. By default put the whole word in ram
 \ for systems with rom.
 false DefaultValue rom-defer
+
+\ In GForth EC the data stack is assumed to grows downwards. I think I desinged it
+\ that way because "all stacks grow downwards". However, letting the stack grow upwards 
+\ helps in memory scarce targets, since the two stack grows against each other and the reserved
+\ space is combined. OTOH, the downwards growing stack has a little advantage with stack operations 
+\ like rot and over, which can use the load with displacement instruction. 
+\ However, this is only one or two cycles for very few words.
+true DefaultValue stack-grows-upwards
 
 \ ANSForth environment  stuff
 8 DefaultValue ADDRESS-UNIT-BITS
@@ -1418,6 +1427,8 @@ T has? rom H
 ' dictionary ALIAS ram-dictionary
 [THEN]
 
+\ used for return stack or return stack and data stack if no
+\ separate data stack region is defined
 0 0 region return-stack
 
 0 0 region data-stack

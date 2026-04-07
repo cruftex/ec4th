@@ -4,7 +4,7 @@ decimal
 
 Code um* ( n1 n2 - dn )
 \ clobbers r0 and r1
-	temp0 ldy+, temp1 ldy+,
+	loadtemp
 	temp2 tosl movw,
     \ temp0:temp1 = A
     \ tosl:tosh = B
@@ -28,7 +28,7 @@ Code um* ( n1 n2 - dn )
 	temp1 temp3 mul,
 	tosl r0 add,
 	tosh r1 adc,
-	temp5 st-y, temp4 st-y,
+	savetemp4
 	do_next rjmp,
 End-code+
 
@@ -69,7 +69,8 @@ Code u/mod ( n1 n2 -- remainder Quotient)
 	dd16uH rol,
 	dcnt16u dec,
 	0 $ brne,
-	drem16uh st-y, drem16ul st-y,
+	savetemp
+	\ for downwards growing: drem16uh st-y, drem16ul st-y,
     do_next rjmp,
 	0 $:
 	drem16uL rol,

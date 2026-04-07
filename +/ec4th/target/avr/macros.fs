@@ -55,6 +55,58 @@ start-macros
 
 \ SPL SPH  (stack pointer) is memory mapped and not addressable as register
 
+end-macros
+\ end macros so we can read the environment variable for the target
+
+e? stack-grows-upwards [IF]
+
+start-macros
+
+also cross 
+return-stack borders drop Constant data-stack-init
+previous
+
+true Constant stack-grows-upwards
+
+\ saves the value of stack to the address pointed by Y
+: savetos
+  tosl stY+, tosh stY+,  ;
+
+: savetemp
+	temp0 stY+, temp1 stY+, ;
+
+\ for rot
+: savetemp2
+	temp2 stY+, temp3 stY+, ;
+
+\ for um*
+: savetemp4
+	temp4 stY+, temp5 stY+, ;
+
+\ loads the value at address pointed by Y to stack
+: loadtos
+  tosh ld-Y, tosl ld-Y,  ;
+
+: loadtemp
+  temp1 ld-Y, temp0 ld-Y,  ;
+
+[ELSE]
+
+start-macros
+
+also cross 
+data-stack borders nip Constant data-stack-init
+previous
+
+false Constant stack-grows-upwards
+
+\ saves the value of stack to the address pointed by Y
+: savetos
+  tosh st-Y, tosl st-Y, ;
+
+: savetemp
+	temp1 st-Y, temp0 st-Y, ;
+
 \ loads the value at address pointed by Y to stack
 : loadtos
   tosl ldY+, tosh ldY+, ;
@@ -62,9 +114,11 @@ start-macros
 : loadtemp
   temp0 ldY+, temp1 ldY+, ;
 
-\ saves the value of stack to the address pointed by Y
-: savetos
-  tosh st-Y, tosl st-Y, ;
+\ for um*
+: savetemp4
+	temp5 st-y, temp4 st-y, ;
+
+[THEN]
 
 : end-code+
   savebranch0 end-code ;
@@ -76,7 +130,7 @@ also cross
 dictionary extent drop Constant rom-start
 ram-dictionary extent drop Constant ram-start
 return-stack borders nip 1- Constant return-stack-init
-data-stack borders nip Constant data-stack-init
+
 previous 
 
 ram-start $1ff and $100 <> [IF] 
@@ -125,7 +179,18 @@ ram-start $1ff and $100 <> [IF]
 \ the data area on the AVR starts 0. So we need to keep the $100 offset
   ram-start - $100 + ;
 
+: pout
+  drop exit 
+ 	temp1 swap ldi,
+  [ also cross ] there [ previous ]
+	temp0 UCSR0A in/lds,
+  temp0 5 sbrs, 
+  rjmp, \ wait for empty transmit buffer
+	temp1 UDR0 out/sts, \ put data (temp1) into buffer sends the data
+;
+
 also cross 
+
 
 : jmp! ( addr addr -- )
   %1001010000001100 over X ! 

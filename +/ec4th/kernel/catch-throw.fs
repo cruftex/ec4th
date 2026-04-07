@@ -2,23 +2,39 @@
 
 decimal
 
-\ sp! and rp! replacements                     8mar26jw
+\ sp! and rp! fillers                          8mar26jw
 
 \ FIXME: move to primitives?
 
 [IFUNDEF] sp!
+
+e? stack-grows-upwards [IF]
+
+: sp! ( addr -- )
+\G Reset stack pointer to the given address.
+  cell+ sp@ swap - 
+  cell/ dup 0> IF 
+    0 DO drop LOOP
+  ELSE
+    \ stack underflow
+    negate 0 ?DO false LOOP
+  THEN ;
+
+[ELSE]
+
 : sp! ( addr -- )
 \G Reset stack pointer to the given address.
   sp@ cell+ - 
-  [ 1 cells 2 <> error" sp! replacement only for 16 bit stack" ]
-  2/ dup 0> IF 
+  cell/ dup 0> IF 
     0 DO drop LOOP
   ELSE
     \ happens on an underflow
     \ however, we should keep the contents intact via sp@
     negate 0 ?DO sp@ 1 cells - @ LOOP
-  THEN
-  ;
+  THEN ;
+
+[THEN]
+
 [THEN]
 
 [IFUNDEF] rp!

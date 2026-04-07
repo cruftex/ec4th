@@ -17,29 +17,50 @@ UNDEF-WORDS
 : dup ( w -- w w )
 	sp@ @ ;
 
+e? stack-grows-upwards [IF]
+
+: over ( w1 w2 -- w1 w2 w1 )
+	sp@ cell - @ ;
+
+: pick ( x0 x1 .. xn n -- x0 .. xn x0 )
+	sp@ swap 1+ cells - @ ;
+
+: depth ( -- +n ) \ core 
+    sp@ sp0 @ - cell/ ;
+
+\ roll                                           17may93jaw
+
+: roll  ( x0 x1 .. xn n -- x1 .. xn x0 ) \ core-ext
+  dup 1+ pick >r
+  cells sp@ over cell+ - dup cell+ swap rot move drop r> ;
+
+[ELSE]
+
 : over ( w1 w2 -- w1 w2 w1 )
 	sp@ cell+ @ ;
 
 : pick ( u -- w )
 	1+ cells sp@ + @ ;
 
-1 cells 2 = [IF]
-| ' 2/ Alias cell/
-[ELSE]
-: cell/ cell / ;
-[THEN]
-
 : depth ( -- +n ) \ core 
     sp@ sp0 @ swap - cell/ ;
+
+\ roll                                           17may93jaw
+
+: roll  ( x0 x1 .. xn n -- x1 .. xn x0 ) \ core-ext
+  dup 1+ pick >r
+  cells sp@ cell+ dup cell+ rot move drop r> ;
+
+[THEN]
 
 : rot ( w1 w2 w3 -- w2 w3 w1 )
 	>r swap r> swap ;
 
-: 2drop ( w w -- )
-    drop drop ;
-
 : -rot ( w1 w2 w3 -- w3 w1 w2 )
 	rot rot ;
+
+: 2drop ( w w -- )
+    drop drop ;
 
 : nip ( w1 w2 -- w2 )
 	swap drop ;
@@ -88,7 +109,6 @@ UNDEF-WORDS
 : 2rdrop ( -- )
 	r> r> drop r> drop >r ;
 
-
 : 2dup ( w1 w2 -- w1 w2 w1 w2 )
 	over over ;
 
@@ -106,11 +126,5 @@ UNDEF-WORDS
 
 : 2tuck ( w1 w2 w3 w4 -- w3 w4 w1 w2 w3 w4 )
 	2swap 2over ;
-
-\ roll                                           17may93jaw
-
-: roll  ( x0 x1 .. xn n -- x1 .. xn x0 ) \ core-ext
-  dup 1+ pick >r
-  cells sp@ cell+ dup cell+ rot move drop r> ;
 
 ALL-WORDS

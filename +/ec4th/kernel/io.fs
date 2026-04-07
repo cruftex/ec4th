@@ -5,6 +5,7 @@ require strings.fs
 \ UNDEF-WORDS
 decimal
 
+\ FIXME: remove (emit)
 : emit (emit) ;
 
 : (.")
@@ -21,6 +22,7 @@ decimal
 \ Input                                                13feb93py
 
 hex
+\ FIXME: remove not needed constants
 20 Constant bl
 07 constant #bell ( -- c ) \ gforth
 08 constant #bs ( -- c ) \ gforth
