@@ -178,9 +178,6 @@ ram-start $1ff and $100 <> [IF]
     XH mempivot cp,
   THEN ;
 
-
-
-
 : addr>pm ( addr -- addr )
 \ translate the dictionary address to device pm address
 \ when its not starting at 0
@@ -193,7 +190,7 @@ ram-start $1ff and $100 <> [IF]
   ram-start - $100 + ;
 
 : pout
-  drop exit
+   drop exit
  	temp1 swap ldi,
   [ also cross ] there [ previous ]
 	temp0 UCSR0A in/lds,

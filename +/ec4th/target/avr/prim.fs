@@ -55,9 +55,13 @@ Label on-error
 	temp0 lpmz, temp0 SPH out/sts,
 
 	'~ pout
+	$0d pout
+	$0a pout
 
 Label do_next
 	'| pout
+	$0d pout
+	$0a pout
 	?rom-address-xh-cp, 
 	0 $ brcs,
 	WL ldx+, WH ldx+, \ X is IP, advance and fetch next instruction from RAM
