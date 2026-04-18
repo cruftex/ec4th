@@ -13,37 +13,28 @@ from sphinx.util.nodes import make_refnode
 
 logger = logging.getLogger(__name__)
 
-PROFILE_RE = re.compile(r"^profile/([^/]+)/")
+PROFILE_RE = re.compile(r"^target/([^/]+)/profile/([^/]+)/")
+TARGET_RE = re.compile(r"^target/([^/]+)/")
 
 
-def profile_from_docname(docname: str) -> str | None:
-    match = PROFILE_RE.match(docname)
-    return match.group(1) if match else None
+def location_from_docname(docname: str) -> tuple[str | None, str | None]:
+    profile_match = PROFILE_RE.match(docname)
+    if profile_match:
+        return profile_match.group(1), profile_match.group(2)
+
+    target_match = TARGET_RE.match(docname)
+    if target_match:
+        return target_match.group(1), None
+
+    return None, None
 
 
 class ForthWordDirective(SphinxDirective):
-    """
-    Register a documented Forth word page.
-
-    Usage in MyST markdown:
-
-    ```{forth:word} swap
-    :word: swap
-    :profile: avr
-    ```
-
-    Or for an operator-like word:
-
-    ```{forth:word} op-plus
-    :word: +
-    :profile: avr
-    ```
-    """
-
     required_arguments = 1
     has_content = False
     option_spec = {
         "word": directives.unchanged,
+        "target": directives.unchanged,
         "profile": directives.unchanged,
     }
 
@@ -53,38 +44,29 @@ class ForthWordDirective(SphinxDirective):
             raise self.error("forth:word requires a non-empty slug")
 
         word = (self.options.get("word") or slug).strip()
-        profile = (self.options.get("profile") or "").strip() or profile_from_docname(self.env.docname)
+        current_target, current_profile = location_from_docname(self.env.docname)
+        target = (self.options.get("target") or "").strip() or current_target
+        profile = (self.options.get("profile") or "").strip() or current_profile
 
         anchor = f"forth-word-{slug}"
-        target = nodes.target("", "", ids=[anchor])
+        target_node = nodes.target("", "", ids=[anchor])
 
         domain = self.env.get_domain("forth")
         assert isinstance(domain, ForthDomain)
         domain.register_word(
             slug=slug,
             word=word,
+            target=target,
             profile=profile,
             docname=self.env.docname,
             anchor=anchor,
             location=(self.env.docname, self.lineno),
         )
 
-        return [target]
+        return [target_node]
 
 
 class ForthXRefRole(XRefRole):
-    """
-    Cross-reference role for Forth words.
-
-    Supported roles:
-      - forth:word  -> target is a slug, e.g. `swap`
-      - forth:op    -> target is operator shorthand, e.g. `plus` -> `op-plus`
-
-    Explicit titles are supported:
-      {forth:word}`exchange <swap>`
-      {forth:op}`+ <plus>`
-    """
-
     def process_link(self, env, refnode, has_explicit_title, title, target):
         refnode["forth:has_explicit_title"] = has_explicit_title
         return title, target.strip()
@@ -108,30 +90,43 @@ class ForthDomain(Domain):
     }
 
     initial_data = {
-        # key: (profile|None, slug) -> record
+        # key: (target|None, profile|None, slug) -> record
         "objects": {},
     }
 
     @property
-    def objects(self) -> dict[tuple[str | None, str], dict[str, str | None]]:
+    def objects(self) -> dict[tuple[str | None, str | None, str], dict[str, str | None]]:
         return self.data["objects"]
 
     def register_word(
         self,
         slug: str,
         word: str,
+        target: str | None,
         profile: str | None,
         docname: str,
         anchor: str,
         location=None,
     ) -> None:
-        key = (profile or None, slug)
+        key = (target or None, profile or None, slug)
         previous = self.objects.get(key)
 
         if previous is not None:
+            if previous["docname"] == docname and previous["anchor"] == anchor:
+                self.objects[key] = {
+                    "docname": docname,
+                    "anchor": anchor,
+                    "slug": slug,
+                    "word": word,
+                    "target": target or None,
+                    "profile": profile or None,
+                }
+                return
+
             logger.warning(
-                "duplicate forth word registration for slug=%r profile=%r; replacing %s with %s",
+                "duplicate forth word registration for slug=%r target=%r profile=%r; replacing %s with %s",
                 slug,
+                target,
                 profile,
                 previous["docname"],
                 docname,
@@ -143,6 +138,7 @@ class ForthDomain(Domain):
             "anchor": anchor,
             "slug": slug,
             "word": word,
+            "target": target or None,
             "profile": profile or None,
         }
 
@@ -151,15 +147,24 @@ class ForthDomain(Domain):
             return f"op-{target}"
         return target
 
-    def iter_candidates(self, fromdocname: str, slug: str) -> Iterator[tuple[str | None, str]]:
-        current_profile = profile_from_docname(fromdocname)
-        if current_profile is not None:
-            yield (current_profile, slug)
-        yield (None, slug)
+    def iter_candidates(
+        self,
+        fromdocname: str,
+        slug: str,
+    ) -> Iterator[tuple[str | None, str | None, str]]:
+        current_target, current_profile = location_from_docname(fromdocname)
+        if current_target is not None and current_profile is not None:
+            yield (current_target, current_profile, slug)
+        yield (None, None, slug)
 
     def get_objects(self):
-        for (profile, slug), obj in self.objects.items():
-            fqname = f"{profile}:{slug}" if profile else slug
+        for (target, profile, slug), obj in self.objects.items():
+            if target and profile:
+                fqname = f"{target}:{profile}:{slug}"
+            elif target:
+                fqname = f"{target}:{slug}"
+            else:
+                fqname = slug
             dispname = obj.get("word") or slug
             yield (
                 fqname,

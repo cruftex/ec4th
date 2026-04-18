@@ -11,7 +11,8 @@ The generated reference is driven by a small Sphinx pipeline tailored to ec4th.
 
 - **word**: the Forth token as seen by the user, for example `swap`, `+`, or `'`
 - **slug**: the stable documentation id used in filenames and cross references, for example `swap`, `op-plus`, or `op-tick`
-- **profile**: a concrete built image described by a tag file such as `output/ec4th-arduino-nano-regular.tags`
+- **target**: a hardware or platform family, for example `arduino-nano`
+- **profile**: a build variant within a target, for example `regular`
 
 Use slugs as the stable identifier. A word may be symbolic, but the slug should remain filesystem-safe.
 
@@ -26,7 +27,7 @@ doc/
   word/*.yml
 
 output/
-  ec4th-<profile>.tags
+  ec4th-<target>-<profile>.tags
   doc/
 ```
 
@@ -38,10 +39,12 @@ The main inputs are:
 The main outputs are:
 
 - `output/doc/index.md`
-- `output/doc/profile/<profile>/index.md`
-- `output/doc/profile/<profile>/word/<slug>.md`
+- `output/doc/target/<target>/index.md`
+- `output/doc/target/<target>/profile/<profile>/index.md`
+- `output/doc/target/<target>/profile/<profile>/word/<slug>.md`
 - `output/doc/word/<slug>.md`
-- `output/doc/_build/html/`
+- `output/doc-html/`
+- `output/doc-doctrees/`
 
 ## Word metadata files
 
@@ -72,15 +75,18 @@ Supported fields today are:
 - `description`
 - `stack`
 
-## Profile discovery
+## Target and profile discovery
 
-Profiles are not configured manually. The generator discovers them from files matching:
+Targets and profiles are not configured manually. The generator discovers them from files matching:
 
 ```text
 output/ec4th-*.tags
 ```
 
-The profile name is the part between `ec4th-` and `.tags`.
+The filename suffix is split into:
+
+- target: everything before the last `-`
+- profile: everything after the last `-`
 
 Example:
 
@@ -88,7 +94,10 @@ Example:
 output/ec4th-arduino-nano-regular.tags
 ```
 
-This produces the profile id `arduino-nano-regular`.
+This produces:
+
+- target: `arduino-nano`
+- profile: `regular`
 
 ## How generation works
 
@@ -97,12 +106,13 @@ This produces the profile id `arduino-nano-regular`.
 1. Load YAML metadata from `doc/word/`.
 2. Parse each discovered tags file.
 3. Resolve a slug for every word.
-4. Generate per-profile pages.
+4. Generate per-profile pages under each target.
 5. Generate global word pages and the root index.
 
 Resolution rules:
 
-- profile pages first resolve links within the same profile, then fall back to global pages
+- profile pages first resolve within the same target/profile, then global pages
+- target pages are for target-level hand-written content such as hardware notes and profile overviews
 - global pages only resolve against global entries
 
 If a word appears in a tags file but has no YAML entry yet, the generator creates a fallback slug from the visible word so the page can still be generated.
@@ -148,8 +158,8 @@ make doc
 That currently runs:
 
 ```bash
-python3 doc/build_word_docs.py
-sphinx-build -b html -c doc output/doc output/doc/_build/html
+PYTHONPYCACHEPREFIX=output/pycache python3 doc/build_word_docs.py
+PYTHONPYCACHEPREFIX=output/pycache sphinx-build -d output/doc-doctrees -b html -c doc output/doc output/doc-html
 ```
 
 ## Maintainer constraints
@@ -158,6 +168,8 @@ sphinx-build -b html -c doc output/doc output/doc/_build/html
 - do not hardcode `.html` links in source documents
 - prefer domain roles over raw links
 - keep generated output under `output/doc/`
+- HTML output goes to `output/doc-html/`
 - Sphinx should build without warnings
 
 The generator may recreate `output/doc/`, so do not hand-edit generated pages there. Edit YAML metadata or the generator instead.
+The generator updates files incrementally and removes stale generated Markdown files, so Sphinx can reuse `output/doc-doctrees/` across repeated builds.

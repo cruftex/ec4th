@@ -10,8 +10,8 @@ forth2012-report:
 	python3 tools/forth2012_wordset_report.py "$(SYM)" "$(OUT)"
 
 doc:
-	python3 doc/build_word_docs.py
-	sphinx-build -b html -c doc output/doc output/doc/_build/html
+	PYTHONPYCACHEPREFIX=output/pycache python3 doc/build_word_docs.py
+	PYTHONPYCACHEPREFIX=output/pycache sphinx-build -d output/doc-doctrees -b html -c doc output/doc output/doc-html
 
 clean:
 	rm -rf output
