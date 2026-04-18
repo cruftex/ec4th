@@ -1,69 +1,110 @@
 # ec4th
 
-## Getting started with ec4th on Arduino Nano
+`ec4th` is a small Forth system that is cross-compiled with `gforth` and currently targets the ATmega328/Arduino Nano class of boards. This repository contains the cross compiler, the target kernel and primitives, board-specific code, and the documentation sources for the generated word reference.
 
-Assuming you have Ubuntu, install `avrdude`:
+## Quickstart
 
-    sudo apt-get install avrdude
+To run ec4th on an Arduino Nano without building from source, install:
 
-Also, to communicate with the Arduino, you need a terminal program. One popular choice is `tio`. Install it with
+- `avrdude`
+- a serial terminal such as `tio`
 
-    sudo apt-get install tio
+On Ubuntu, install them with:
 
-Connect your Arduino Uno to the computer and check which port it is on. Typically, `/dev/ttyUSB0` should appear.
-Make sure you have permission to access `/dev/ttyUSB0`. Typically this requires that you have the group `dialout`.
+```bash
+sudo apt-get install avrdude tio
+```
 
-Download the latest ec4th release from https://github.com/cruftex/ec4th/releases. The system image is available in
-Intel hex format and has the name: `ec4th-arduino-nano-regular.hex`.
+Connect the board, identify the serial device, and make sure your user can access it. On Linux that is often `/dev/ttyUSB0` and usually requires membership in the `dialout` group.
 
-Send the image to the Arduino:
+Download a released HEX image from the GitHub releases page:
 
-    avrdude -p atmega328p -c arduino -P /dev/ttyUSB0 -b 115200 -D -U flash:w:ec4th-arduino-nano-regular.hex:i
+<https://github.com/cruftex/ec4th/releases>
 
-After flashing, its time to talk to the Forth system, start `tio` with:
+The regular Arduino Nano build is published as:
 
-    tio -b 115200 -o 1 /dev/ttyUSB0
+- `ec4th-arduino-nano-regular.hex`
 
-Option `-o 1` adds a 1 milli second pause after sending each character. Depending on the command, the Forth system 
-is not capable of processing the input at the full speed of the 115k bit/s. 
+Flash the release image:
 
-Implementation note: The Forth system also implements software flow control via XON/XOFF, however, I was not able to get it working. In `tio` the option `-f soft` switches on software handshake. 
-However, there is a long standing open bug in the Linux kernel that this is not yet implemented for the USB chip that the Arduino uses. See: https://bugzilla.kernel.org/show_bug.cgi?id=197109
+```bash
+avrdude -p atmega328p -c arduino -P /dev/ttyUSB0 -b 115200 -D \
+  -U flash:w:ec4th-arduino-nano-regular.hex:i
+```
 
+Open a terminal session:
 
+```bash
+tio -b 115200 -o 1 /dev/ttyUSB0
+```
 
+The `-o 1` option adds a small transmit delay. ec4th can otherwise overrun on interactive input at full serial speed.
 
-## Development setup for ec4th
+## Building From Source
 
-Notes covering the development 
+To build the firmware image you need:
 
-### Recommended VS Code Plugins
+- `gforth`
+- `avr-objcopy` from AVR binutils
 
-VS Code has two useful plugins for working on the ec4th sources.
+On Ubuntu/Debian this is typically:
 
-- ext install fttx.language-forth - Syntac highlighting
-- Ctags Companion - jump to definition with F12
+```bash
+sudo apt-get install gforth binutils-avr
+```
 
-### Install AVR simulator and bin utils
+Build the default image with:
 
-Unfortunately the simulator wants an ELF file. So, to use the simulator the binary image needs to be converted into and ELF.
+```bash
+make
+```
 
-    apt-get install simavr binutils-avr
+That produces:
 
-### Using GDB to debug AVR code
+- `output/ec4th-arduino-nano-regular.bin`
+- `output/ec4th-arduino-nano-regular.hex`
+- `output/ec4th-arduino-nano-regular.sym`
+- `output/ec4th-arduino-nano-regular.tags`
 
-Start the simulator with:
+## Simulator and debugging
 
-    simavr -g -m atmega328p -f 16000000 avr.elf
+To run under `simavr`:
 
-The -g will not run the program immediately wait for a debugger to connect.
+```bash
+sudo apt-get install simavr
+./run.sh
+```
 
-And start the debugger with:
+For GDB-based debugging:
 
-     avr-gdb avr.elf  -ex "target remote :1234" -ex 'display/i $pc'
+```bash
+simavr -g -m atmega328p -f 16000000 output/ec4th-arduino-nano-regular.hex
+avr-gdb output/avr.elf -ex "target remote :1234" -ex 'display/i $pc'
+```
 
-The `display/i $pc` will print the instruction for every step.
+Note: the current repository scripts generate HEX output directly. If you want a simulator or debugger flow that depends on ELF artifacts, check the commented conversion notes in `build.sh` first.
 
+## Repository layout
 
+- `build.fs` builds the default Arduino Nano image.
+- `build.sh` runs the cross build and converts the generated binary into Intel HEX.
+- `run.sh` builds and starts the image in `simavr`.
+- `+/ec4th/` contains the ec4th sources.
+- `doc/` contains documentation sources and the word metadata used to generate the reference.
+- `output/` is generated during builds and documentation generation.
 
+## Documentation
 
+The generated word reference is built from:
+
+- YAML files in `doc/word/`
+- tag files in `output/ec4th-*.tags`
+- the custom Sphinx Forth domain in `doc/forth_domain.py`
+
+Build the documentation with:
+
+```bash
+make doc
+```
+
+See `DOCUMENTATION.md` for the documentation conventions and generator details.

@@ -2190,7 +2190,8 @@ Create tag-dquot 1 c,  22 c,
 	tag-tab count ctags-file-id write-file throw
 	sourcefilename ctags-file-id write-file throw
 	tag-tab count ctags-file-id write-file throw
-  sourceline# s>d <# #s #> ctags-file-id write-file throw
+  base @ >r
+  decimal sourceline# s>d <# #s #> r> base ! ctags-file-id write-file throw
 	s" ;" ctags-file-id write-file throw
 	tag-dquot count ctags-file-id write-line throw
     THEN ;
