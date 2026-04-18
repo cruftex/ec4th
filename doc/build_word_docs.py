@@ -26,12 +26,12 @@ SYMBOL_NAME_MAP = {
     "'": "tick",
     "(": "paren",
     ")": "close-paren",
-    "*": "star",
+    "*": "mul",
     "+": "plus",
     ",": "comma",
     "-": "minus",
     ".": "dot",
-    "/": "slash",
+    "/": "div",
     ":": "colon",
     ";": "semicolon",
     "<": "less",
@@ -236,6 +236,9 @@ def resolve_slug(word: str, docs_by_word: Dict[str, WordDoc]) -> str:
     slug = "".join(parts)
     slug = re.sub(r"[^a-z0-9._-]+", "-", slug)
     slug = re.sub(r"-{2,}", "-", slug)
+    slug = re.sub(r"(^|-)m-mul(?=-|$)", r"\1m-times", slug)
+    slug = re.sub(r"(^|-)um-mul(?=-|$)", r"\1um-times", slug)
+    slug = re.sub(r"(^|-)two-mul(?=-|$)", r"\1two-times", slug)
     slug = slug.strip("-")
 
     if not slug:
@@ -352,6 +355,32 @@ def source_url(source_path: str, line: int) -> str:
     return f"/source/{source_path}.html#line-{line}"
 
 
+def standard_wordset_path(wordset: str) -> str:
+    if wordset.startswith("core"):
+        return "core"
+    if wordset.startswith("double"):
+        return "double"
+    if wordset.startswith("exception"):
+        return "exception"
+    if wordset.startswith("facility"):
+        return "facility"
+    if wordset.startswith("floating"):
+        return "float"
+    if wordset.startswith("memory"):
+        return "memory"
+    if wordset.startswith("string"):
+        return "string"
+    if wordset.startswith("tools"):
+        return "tools"
+    return wordset
+
+
+def standard_url(wordset: Optional[str], f12_slug: Optional[str]) -> Optional[str]:
+    if not wordset or not f12_slug:
+        return None
+    return f"https://forth-standard.org/standard/{standard_wordset_path(wordset)}/{f12_slug}"
+
+
 def render_word_directive(
     slug: str,
     word: str,
@@ -374,8 +403,13 @@ def render_profile_word_page(pw: ProfileWord) -> str:
     return_stack = pw.doc.return_stack if pw.doc is not None else None
     wordsets = iter_wordsets(pw.doc) if pw.doc is not None else []
     f12_slug = pw.doc.f12_slug if pw.doc is not None else None
+    std_url = standard_url(wordsets[0] if wordsets else None, f12_slug)
 
     parts: List[str] = []
+    parts.append("---")
+    parts.append("orphan: true")
+    parts.append("---")
+    parts.append("")
     parts.append(render_word_directive(pw.slug, pw.word, pw.target, pw.profile))
     parts.append("")
     parts.append(f"# {title}")
@@ -390,26 +424,20 @@ def render_profile_word_page(pw: ProfileWord) -> str:
         parts.append(
             f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
         )
-    if f12_slug:
-        parts.append(f"**F12 slug:** `{f12_slug}`")
+    if std_url:
+        parts.append(f"**Standard:** <{std_url}>")
     parts.append("")
 
-    if desc:
-        parts.append("## Description")
-        parts.append("")
-        parts.append(desc)
-        parts.append("")
-
     if stack:
-        parts.append("## Stack")
-        parts.append("")
         parts.append(f"`{md_escape_inline(stack)}`")
         parts.append("")
 
     if return_stack:
-        parts.append("## Return Stack")
-        parts.append("")
         parts.append(f"`{md_escape_inline(return_stack)}`")
+        parts.append("")
+
+    if desc:
+        parts.append(desc)
         parts.append("")
 
     parts.append("## Entry")
@@ -427,8 +455,13 @@ def render_global_word_page(slug: str, occurrences: List[ProfileWord], doc: Opti
     return_stack = doc.return_stack if doc is not None else None
     wordsets = iter_wordsets(doc) if doc is not None else []
     f12_slug = doc.f12_slug if doc is not None else None
+    std_url = standard_url(wordsets[0] if wordsets else None, f12_slug)
 
     parts: List[str] = []
+    parts.append("---")
+    parts.append("orphan: true")
+    parts.append("---")
+    parts.append("")
     parts.append(render_word_directive(slug, display_word))
     parts.append("")
     parts.append(f"# {display_word}")
@@ -440,27 +473,21 @@ def render_global_word_page(slug: str, occurrences: List[ProfileWord], doc: Opti
         parts.append(
             f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
         )
-    if f12_slug:
-        parts.append(f"**F12 slug:** `{f12_slug}`")
-    if wordsets or f12_slug:
-        parts.append("")
-
-    if desc:
-        parts.append("## Description")
-        parts.append("")
-        parts.append(desc)
+    if std_url:
+        parts.append(f"**Standard:** <{std_url}>")
+    if wordsets or std_url:
         parts.append("")
 
     if stack:
-        parts.append("## Stack")
-        parts.append("")
         parts.append(f"`{md_escape_inline(stack)}`")
         parts.append("")
 
     if return_stack:
-        parts.append("## Return Stack")
-        parts.append("")
         parts.append(f"`{md_escape_inline(return_stack)}`")
+        parts.append("")
+
+    if desc:
+        parts.append(desc)
         parts.append("")
 
     parts.append("## Available in Targets")
@@ -484,6 +511,24 @@ def render_profile_index(
     words: List[ProfileWord],
     docs_by_slug: Dict[str, WordDoc],
 ) -> str:
+    parts: List[str] = []
+    parts.append(f"# Profile {profile}")
+    parts.append("")
+    parts.append(f"Target: `{target}`")
+    parts.append("")
+    parts.append(f"Available words: {len(words)}")
+    parts.append("")
+    parts.append("## Indexes")
+    parts.append("")
+    parts.append(f"- {{doc}}`Word Index </target/{target}/profile/{profile}/word-index>`")
+    parts.append("")
+    parts.append("```{toctree}")
+    parts.append(":hidden:")
+    parts.append(":maxdepth: 1")
+    parts.append("")
+    parts.append("word-index")
+    parts.append("```")
+    parts.append("")
     words_by_wordset: Dict[str, List[ProfileWord]] = {}
     for pw in words:
         for wordset in iter_wordsets(pw.doc):
@@ -494,20 +539,6 @@ def render_profile_index(
         for wordset in iter_wordsets(doc):
             documented_by_wordset.setdefault(wordset, []).append(doc)
 
-    parts: List[str] = []
-    parts.append(f"# Profile {profile}")
-    parts.append("")
-    parts.append(f"Target: `{target}`")
-    parts.append("")
-    parts.append(f"Available words: {len(words)}")
-    parts.append("")
-    parts.append("```{toctree}")
-    parts.append(":maxdepth: 1")
-    parts.append("")
-    for pw in words:
-        parts.append(f"word/{pw.slug}")
-    parts.append("```")
-    parts.append("")
     parts.append("## Implemented Words")
     parts.append("")
 
@@ -546,6 +577,26 @@ def render_profile_index(
     return "\n".join(parts)
 
 
+def render_profile_word_index(
+    target: str,
+    profile: str,
+    words: List[ProfileWord],
+) -> str:
+    parts: List[str] = []
+    parts.append("# Word Index")
+    parts.append("")
+    parts.append(f"Target: `{target}`  ")
+    parts.append(f"Profile: `{profile}`")
+    parts.append("")
+    parts.append("```{toctree}")
+    parts.append(":maxdepth: 1")
+    parts.append("")
+    for pw in words:
+        parts.append(f"word/{pw.slug}")
+    parts.append("```")
+    return "\n".join(parts)
+
+
 def render_target_index(target: str, profiles: List[str]) -> str:
     parts: List[str] = []
     parts.append(f"# Target {target}")
@@ -580,8 +631,6 @@ def render_root_index(targets: List[str], global_slugs: List[str]) -> str:
     parts.append("")
     for target in targets:
         parts.append(f"target/{target}/index")
-    for slug in global_slugs:
-        parts.append(f"word/{slug}")
     parts.append("```")
     return "\n".join(parts)
 
@@ -619,6 +668,9 @@ def main() -> int:
         profile_index = profile_dir / "index.md"
         wanted_files.add(profile_index)
         write_text(profile_index, render_profile_index(variant.target, variant.profile, pwords, docs_by_slug))
+        word_index = profile_dir / "word-index.md"
+        wanted_files.add(word_index)
+        write_text(word_index, render_profile_word_index(variant.target, variant.profile, pwords))
 
         for pw in pwords:
             word_path = profile_dir / "word" / f"{pw.slug}.md"

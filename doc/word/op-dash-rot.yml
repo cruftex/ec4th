@@ -1,0 +1,4 @@
+word: -rot
+wordset: ec4th
+stack: "x1 x2 x3 -- x3 x1 x2"
+description: Reverse rotate the top three stack elements. Non-standard but available in all major Forth systems.
