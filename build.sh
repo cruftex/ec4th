@@ -13,4 +13,6 @@ t=output/ec4th-arduino-nano-regular
 
 avr-objcopy -I binary -O ihex $t.bin $t.hex
 
+cp -a tags $t.tags
+
 # simavr -m atmega328p -f 16000000 $t.elf
