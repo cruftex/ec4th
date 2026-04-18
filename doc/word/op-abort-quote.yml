@@ -1,3 +1,5 @@
 word: 'abort"'
 wordset: core
+also-wordsets:
+  - exception-ext
 f12-slug: ABORTq
