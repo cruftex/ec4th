@@ -1,0 +1,5 @@
+word: 'n>r'
+wordset: tools-ext
+f12-slug: NtoR
+stack: '( i * n +n -- ) ( R: -- j * x +n )'
+description: 'Drop n+1 items from the stack and store them for later retrieval by NR>.'

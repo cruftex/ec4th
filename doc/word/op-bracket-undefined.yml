@@ -1,0 +1,5 @@
+word: '[undefined]'
+wordset: tools-ext
+f12-slug: BracketUNDEFINED
+stack: '( "<spaces>name ..." -- flag )'
+description: 'Parse name delimited by a space.'

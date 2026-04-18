@@ -1,0 +1,5 @@
+word: 'name>interpret'
+wordset: tools-ext
+f12-slug: NAMEtoINTERPRET
+stack: '( nt -- xt | 0 )'
+description: 'Xt represents the interpretation semantics of the word nt.'

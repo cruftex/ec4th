@@ -1,0 +1,5 @@
+word: 'flnp1'
+wordset: floating-ext
+f12-slug: FLNPOne
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the natural logarithm of the quantity r1 plus one.'

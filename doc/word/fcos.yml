@@ -1,0 +1,5 @@
+word: 'fcos'
+wordset: floating-ext
+f12-slug: FCOS
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the cosine of the radian angle r1.'

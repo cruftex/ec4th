@@ -1,0 +1,5 @@
+word: 'cs-roll'
+wordset: tools-ext
+f12-slug: CS-ROLL
+stack: '( C: origu | destu origu-1 | destu-1 ... orig0 | dest0 -- origu-1 | destu-1 ... orig0 | dest0 origu | destu )'
+description: 'Drop u.'

@@ -1,0 +1,4 @@
+wordset: string
+f12-slug: SLITERAL
+stack: '( c-addr1 u -- )'
+description: 'Append the run-time semantics given below to the current definition.'

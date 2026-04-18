@@ -1,0 +1,5 @@
+word: 'fs.'
+wordset: floating-ext
+f12-slug: FSd
+stack: '( -- ) ( F: r -- ) or'
+description: 'Print, with a trailing space, the top number on the floating-point stack in scientific notation: <significand><exponent> where: <significand> := [-]<digit>.<digits0> <exponent> := E[-]<digits> An ambiguous condition exists if the value of BASE is not (decimal) ten or if the character string representation exceeds the size of the pictured numeric output string buffer.'

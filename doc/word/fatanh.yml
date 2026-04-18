@@ -1,0 +1,5 @@
+word: 'fatanh'
+wordset: floating-ext
+f12-slug: FATANH
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the floating-point value whose hyperbolic tangent is r1.'

@@ -1,0 +1,5 @@
+word: '?'
+wordset: tools
+f12-slug: q
+stack: '( a-addr -- )'
+description: 'Print the value stored at a-addr.'

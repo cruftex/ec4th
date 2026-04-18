@@ -1,0 +1,4 @@
+wordset: string
+f12-slug: SUBSTITUTE
+stack: '( c-addr1 u1 c-addr2 u2 -- c-addr2 u3 n )'
+description: 'Perform substitution on the string c-addr1 u1 placing the result at string c-addr2 u3, where u3 is the length of the resulting string.'

@@ -1,0 +1,5 @@
+word: 'fswap'
+wordset: floating
+f12-slug: FSWAP
+stack: '( F: r1 r2 -- r2 r1 ) or'
+description: 'Exchange the top two floating-point stack items.'

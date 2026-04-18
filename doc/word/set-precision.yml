@@ -1,0 +1,5 @@
+word: 'set-precision'
+wordset: floating-ext
+f12-slug: SET-PRECISION
+stack: '( u -- )'
+description: 'Set the number of significant digits currently used by F., FE., or FS.'

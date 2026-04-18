@@ -1,0 +1,5 @@
+word: 'float+'
+wordset: floating
+f12-slug: FLOATPlus
+stack: '( f-addr1 -- f-addr2 )'
+description: 'Add the size in address units of a floating-point number to f-addr1, giving f-addr2.'

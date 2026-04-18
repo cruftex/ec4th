@@ -1,0 +1,5 @@
+word: 'dfalign'
+wordset: floating-ext
+f12-slug: DFALIGN
+stack: '( -- )'
+description: 'If the dictionary-space pointer is not double-float aligned, reserve enough data space to make it so.'

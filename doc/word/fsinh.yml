@@ -1,0 +1,5 @@
+word: 'fsinh'
+wordset: floating-ext
+f12-slug: FSINH
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the hyperbolic sine of r1.'

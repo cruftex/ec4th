@@ -1,0 +1,5 @@
+word: 'f>d'
+wordset: floating
+f12-slug: FtoD
+stack: '( -- d ) ( F: r -- ) or'
+description: 'D is the double-cell signed-integer equivalent of the integer portion of r.'

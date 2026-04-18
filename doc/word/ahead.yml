@@ -1,0 +1,5 @@
+word: 'ahead'
+wordset: tools-ext
+f12-slug: AHEAD
+stack: '( C: -- orig )'
+description: 'Put the location of a new unresolved forward reference orig onto the control flow stack.'

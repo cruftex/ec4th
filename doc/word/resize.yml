@@ -1,0 +1,5 @@
+word: 'resize'
+wordset: memory
+f12-slug: RESIZE
+stack: '( a-addr1 u -- a-addr2 ior )'
+description: 'Change the allocation of the contiguous data space starting at the address a-addr1, previously allocated by ALLOCATE or RESIZE, to u address units.'

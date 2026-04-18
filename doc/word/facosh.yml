@@ -1,0 +1,5 @@
+word: 'facosh'
+wordset: floating-ext
+f12-slug: FACOSH
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the floating-point value whose hyperbolic cosine is r1.'

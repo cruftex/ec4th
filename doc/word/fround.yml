@@ -1,0 +1,5 @@
+word: 'fround'
+wordset: floating
+f12-slug: FROUND
+stack: '( F: r1 -- r2 ) or'
+description: 'Round r1 to an integral value using the "round to nearest" rule, giving r2.'

@@ -1,0 +1,5 @@
+word: 'df!'
+wordset: floating-ext
+f12-slug: DFStore
+stack: '( df-addr -- ) ( F: r -- ) or'
+description: 'Store the floating-point number r as a 64-bit IEEE double-precision number at df-addr.'

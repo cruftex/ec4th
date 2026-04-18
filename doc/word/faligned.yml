@@ -1,0 +1,5 @@
+word: 'faligned'
+wordset: floating
+f12-slug: FALIGNED
+stack: '( addr -- f-addr )'
+description: 'F-addr is the first float-aligned address greater than or equal to addr.'

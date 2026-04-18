@@ -1,0 +1,5 @@
+word: 's>f'
+wordset: floating-ext
+f12-slug: StoF
+stack: '( n -- ) ( F: -- r ) or ( n -- r )'
+description: 'R is the floating-point equivalent of the single-cell value n.'

@@ -1,0 +1,5 @@
+word: 'traverse-wordlist'
+wordset: tools-ext
+f12-slug: TRAVERSE-WORDLIST
+stack: '( i * x xt wid -- j * x )'
+description: 'Drop wid and xt from the stack.'

@@ -1,0 +1,5 @@
+word: 'fdrop'
+wordset: floating
+f12-slug: FDROP
+stack: '( F: r -- ) or'
+description: 'Drop r from the floating-point stack.'

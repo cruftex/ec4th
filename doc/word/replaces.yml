@@ -1,0 +1,4 @@
+wordset: string
+f12-slug: REPLACES
+stack: '( c-addr1 u1 c-addr2 u2 -- )'
+description: 'Set the string c-addr1 u1 as the text to substitute for the substitution named by c-addr2 u2.'

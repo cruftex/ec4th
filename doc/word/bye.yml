@@ -1,0 +1,5 @@
+word: 'bye'
+wordset: tools-ext
+f12-slug: BYE
+stack: '( -- )'
+description: 'Return control to the host operating system, if any.'

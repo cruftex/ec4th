@@ -1,0 +1,5 @@
+word: '[then]'
+wordset: tools-ext
+f12-slug: BracketTHEN
+stack: '( -- )'
+description: 'Does nothing.'

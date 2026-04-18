@@ -1,0 +1,5 @@
+word: 'fconstant'
+wordset: floating
+f12-slug: FCONSTANT
+stack: '( "<spaces>name" -- ) ( F: r -- ) or'
+description: 'Parse name delimited by a space.'

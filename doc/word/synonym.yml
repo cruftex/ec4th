@@ -1,0 +1,5 @@
+word: 'synonym'
+wordset: tools-ext
+f12-slug: SYNONYM
+stack: '( "<spaces>newname" "<spaces>oldname" -- )'
+description: 'For both strings skip leading space delimiters.'

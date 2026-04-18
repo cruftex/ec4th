@@ -1,0 +1,5 @@
+word: 'sffield:'
+wordset: floating-ext
+f12-slug: SFFIELDColon
+stack: '( n1 "<spaces>name" -- n2 )'
+description: 'Parse name delimited by a space.'

@@ -1,0 +1,5 @@
+word: 'facos'
+wordset: floating-ext
+f12-slug: FACOS
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the principal radian angle whose cosine is r1.'

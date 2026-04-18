@@ -1,0 +1,5 @@
+word: '[else]'
+wordset: tools-ext
+f12-slug: BracketELSE
+stack: '( "<spaces>name ..." -- )'
+description: 'Skipping leading spaces, parse and discard space-delimited words from the parse area, including nested occurrences of [IF]...'

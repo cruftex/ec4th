@@ -1,0 +1,5 @@
+word: '[defined]'
+wordset: tools-ext
+f12-slug: BracketDEFINED
+stack: '( "<spaces>name ..." -- flag )'
+description: 'Parse name delimited by a space.'

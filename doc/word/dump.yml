@@ -1,0 +1,5 @@
+word: 'dump'
+wordset: tools
+f12-slug: DUMP
+stack: '( addr u -- )'
+description: 'Print the contents of u consecutive addresses starting at addr.'

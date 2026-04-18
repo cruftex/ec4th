@@ -1,0 +1,5 @@
+word: 'ffield:'
+wordset: floating-ext
+f12-slug: FFIELDColon
+stack: '( n1 "<spaces>name" -- n2 )'
+description: 'Parse name delimited by a space.'

@@ -1,0 +1,5 @@
+word: 'assembler'
+wordset: tools-ext
+f12-slug: ASSEMBLER
+stack: '( -- )'
+description: 'Replace the first word list in the search order with the ASSEMBLER word list.'

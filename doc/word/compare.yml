@@ -1,0 +1,4 @@
+wordset: string
+f12-slug: COMPARE
+stack: '( c-addr1 u1 c-addr2 u2 -- n )'
+description: 'Compare the string specified by c-addr1 u1 to the string specified by c-addr2 u2.'

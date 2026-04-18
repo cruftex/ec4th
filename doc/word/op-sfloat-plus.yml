@@ -1,0 +1,5 @@
+word: 'sfloat+'
+wordset: floating-ext
+f12-slug: SFLOATPlus
+stack: '( sf-addr1 -- sf-addr2 )'
+description: 'Add the size in address units of a 32-bit IEEE single-precision number to sf-addr1, giving sf-addr2.'

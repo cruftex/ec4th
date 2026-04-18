@@ -1,0 +1,5 @@
+word: 'dfaligned'
+wordset: floating-ext
+f12-slug: DFALIGNED
+stack: '( addr -- df-addr )'
+description: 'Df-addr is the first double-float-aligned address greater than or equal to addr.'

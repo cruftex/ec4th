@@ -1,0 +1,5 @@
+word: 'allocate'
+wordset: memory
+f12-slug: ALLOCATE
+stack: '( u -- a-addr ior )'
+description: 'Allocate u address units of contiguous data space.'

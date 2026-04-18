@@ -1,0 +1,5 @@
+word: 'f/'
+wordset: floating
+f12-slug: FDiv
+stack: '( F: r1 r2 -- r3 ) or'
+description: 'Divide r1 by r2, giving the quotient r3.'

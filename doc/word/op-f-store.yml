@@ -1,0 +1,5 @@
+word: 'f!'
+wordset: floating
+f12-slug: FStore
+stack: '( f-addr -- ) ( F: r -- ) or'
+description: 'Store r at f-addr.'

@@ -1,0 +1,5 @@
+word: 'fmin'
+wordset: floating
+f12-slug: FMIN
+stack: '( F: r1 r2 -- r3 ) or'
+description: 'R3 is the lesser of r1 and r2.'

@@ -1,0 +1,5 @@
+word: 'free'
+wordset: memory
+f12-slug: FREE
+stack: '( a-addr -- ior )'
+description: 'Return the contiguous region of data space indicated by a-addr to the system for later allocation.'

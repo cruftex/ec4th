@@ -1,0 +1,5 @@
+word: 'ftan'
+wordset: floating-ext
+f12-slug: FTAN
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the tangent of the radian angle r1.'

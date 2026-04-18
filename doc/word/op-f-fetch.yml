@@ -1,0 +1,5 @@
+word: 'f@'
+wordset: floating
+f12-slug: FFetch
+stack: '( f-addr -- ) ( F: -- r ) or'
+description: 'R is the value stored at f-addr.'

@@ -1,0 +1,5 @@
+word: 'falign'
+wordset: floating
+f12-slug: FALIGN
+stack: '( -- )'
+description: 'If the dictionary-space pointer is not float aligned, reserve enough data space to make it so.'

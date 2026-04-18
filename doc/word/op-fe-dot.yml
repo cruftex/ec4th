@@ -1,0 +1,5 @@
+word: 'fe.'
+wordset: floating-ext
+f12-slug: FEd
+stack: '( -- ) ( F: r -- ) or'
+description: 'Print, with a trailing space, the top number on the floating-point stack using engineering notation, where the significand is greater than or equal to 1.0 and less than 1000.0 and the decimal exponent is a multiple of three.'

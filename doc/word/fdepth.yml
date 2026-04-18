@@ -1,0 +1,5 @@
+word: 'fdepth'
+wordset: floating
+f12-slug: FDEPTH
+stack: '( -- +n )'
+description: '+n is the number of values contained on the floating-point stack.'

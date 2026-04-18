@@ -1,0 +1,5 @@
+word: 'name>compile'
+wordset: tools-ext
+f12-slug: NAMEtoCOMPILE
+stack: '( nt -- x xt )'
+description: 'X xt represents the compilation semantics of the word nt.'

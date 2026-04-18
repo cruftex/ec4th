@@ -1,0 +1,5 @@
+word: 'see'
+wordset: tools
+f12-slug: SEE
+stack: '( "<spaces>name" -- )'
+description: "Print a human-readable representation of the named word's definition."

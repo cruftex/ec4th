@@ -1,0 +1,5 @@
+word: 'fliteral'
+wordset: floating
+f12-slug: FLITERAL
+stack: '( F: r -- ) or'
+description: 'Append the run-time semantics given below to the current definition.'

@@ -1,0 +1,5 @@
+word: 'cs-pick'
+wordset: tools-ext
+f12-slug: CS-PICK
+stack: '( C: destu ... orig0 | dest0 -- destu ... orig0 | dest0 destu )'
+description: 'Drop u.'

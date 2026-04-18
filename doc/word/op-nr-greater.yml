@@ -1,0 +1,5 @@
+word: 'nr>'
+wordset: tools-ext
+f12-slug: NRfrom
+stack: '( -- i * x +n ) ( R: j * x +n -- )'
+description: 'Retrieve the items previously stored by an invocation of N>R.'

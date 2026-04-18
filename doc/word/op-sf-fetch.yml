@@ -1,0 +1,5 @@
+word: 'sf@'
+wordset: floating-ext
+f12-slug: SFFetch
+stack: '( sf-addr -- ) ( F: -- r ) or'
+description: 'Fetch the 32-bit IEEE single-precision number stored at sf-addr to the floating-point stack as r in the internal representation.'

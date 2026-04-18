@@ -1,0 +1,5 @@
+word: 'f+'
+wordset: floating
+f12-slug: FPlus
+stack: '( F: r1 r2 -- r3 ) or'
+description: 'Add r1 to r2 giving the sum r3.'

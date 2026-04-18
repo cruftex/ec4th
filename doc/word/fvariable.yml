@@ -1,0 +1,5 @@
+word: 'fvariable'
+wordset: floating
+f12-slug: FVARIABLE
+stack: '( "<spaces>name" -- )'
+description: 'Parse name delimited by a space.'

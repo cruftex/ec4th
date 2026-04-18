@@ -1,0 +1,5 @@
+word: 'f.'
+wordset: floating-ext
+f12-slug: Fd
+stack: '( -- ) ( F: r -- ) or'
+description: 'Print, with a trailing space, the top number on the floating-point stack using fixed-point notation: [-] <digits>.<digits0> An ambiguous condition exists if the value of BASE is not (decimal) ten or if the character string representation exceeds the size of the pictured numeric output string buffer.'

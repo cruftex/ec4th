@@ -1,0 +1,5 @@
+word: 'sfalign'
+wordset: floating-ext
+f12-slug: SFALIGN
+stack: '( -- )'
+description: 'If the dictionary-space pointer is not single-float aligned, reserve enough data space to make it so.'

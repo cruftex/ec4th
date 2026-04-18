@@ -1,0 +1,4 @@
+wordset: string
+f12-slug: SEARCH
+stack: '( c-addr1 u1 c-addr2 u2 -- c-addr3 u3 flag )'
+description: 'Search the string specified by c-addr1 u1 for the string specified by c-addr2 u2.'

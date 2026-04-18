@@ -1,0 +1,5 @@
+word: 'name>string'
+wordset: tools-ext
+f12-slug: NAMEtoSTRING
+stack: '( nt -- c-addr u )'
+description: 'NAME>STRING returns the name of the word nt in the character string c-addr u.'

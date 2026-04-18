@@ -1,0 +1,5 @@
+word: 'f>s'
+wordset: floating-ext
+f12-slug: FtoS
+stack: '( -- n ) ( F: r -- ) or ( r -- n )'
+description: 'N is the single-cell signed-integer equivalent of the integer portion of r.'

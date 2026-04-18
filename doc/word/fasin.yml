@@ -1,0 +1,5 @@
+word: 'fasin'
+wordset: floating-ext
+f12-slug: FASIN
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the principal radian angle whose sine is r1.'

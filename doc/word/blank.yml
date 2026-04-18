@@ -1,0 +1,4 @@
+wordset: string
+f12-slug: BLANK
+stack: '( c-addr u -- )'
+description: 'If u is greater than zero, store the character value for space in u consecutive character positions beginning at c-addr.'

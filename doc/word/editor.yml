@@ -1,0 +1,5 @@
+word: 'editor'
+wordset: tools-ext
+f12-slug: EDITOR
+stack: '( -- )'
+description: 'Replace the first word list in the search order with the EDITOR word list.'

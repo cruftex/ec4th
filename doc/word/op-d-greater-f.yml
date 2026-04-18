@@ -1,0 +1,5 @@
+word: 'd>f'
+wordset: floating
+f12-slug: DtoF
+stack: '( d -- ) ( F: -- r ) or'
+description: 'R is the floating-point equivalent of d.'

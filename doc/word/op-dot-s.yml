@@ -1,0 +1,5 @@
+word: '.s'
+wordset: tools
+f12-slug: DotS
+stack: '( -- )'
+description: 'Copy and display the values currently on the stack.'

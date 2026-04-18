@@ -1,0 +1,5 @@
+word: 'fvalue'
+wordset: floating-ext
+f12-slug: FVALUE
+stack: '( F: r -- ) ( "<spaces>name" -- ) or'
+description: 'Parse name delimited by a space.'

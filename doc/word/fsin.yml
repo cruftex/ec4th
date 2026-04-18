@@ -1,0 +1,5 @@
+word: 'fsin'
+wordset: floating-ext
+f12-slug: FSIN
+stack: '( F: r1 -- r2 ) or'
+description: 'R2 is the sine of the radian angle r1.'

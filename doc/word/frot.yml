@@ -1,0 +1,5 @@
+word: 'frot'
+wordset: floating
+f12-slug: FROT
+stack: '( F: r1 r2 r3 -- r2 r3 r1 ) or'
+description: 'Rotate the top three floating-point stack entries.'

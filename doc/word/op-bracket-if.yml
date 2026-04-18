@@ -1,0 +1,5 @@
+word: '[if]'
+wordset: tools-ext
+f12-slug: BracketIF
+stack: '( flag | flag "<spaces>name ..." -- )'
+description: 'If flag is true, do nothing.'

@@ -1,0 +1,5 @@
+word: 'sfaligned'
+wordset: floating-ext
+f12-slug: SFALIGNED
+stack: '( addr -- sf-addr )'
+description: 'Sf-addr is the first single-float-aligned address greater than or equal to addr.'

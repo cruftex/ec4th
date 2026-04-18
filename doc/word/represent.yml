@@ -1,0 +1,5 @@
+word: 'represent'
+wordset: floating
+f12-slug: REPRESENT
+stack: '( c-addr u -- n flag1 flag2 ) ( F: r -- ) or'
+description: 'At c-addr, place the character-string external representation of the significand of the floating-point number r.'

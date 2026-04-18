@@ -1,0 +1,5 @@
+word: 'f*'
+wordset: floating
+f12-slug: FTimes
+stack: '( F: r1 r2 -- r3 ) or'
+description: 'Multiply r1 by r2 giving r3.'

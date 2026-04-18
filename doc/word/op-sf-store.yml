@@ -1,0 +1,5 @@
+word: 'sf!'
+wordset: floating-ext
+f12-slug: SFStore
+stack: '( sf-addr -- ) ( F: r -- ) or'
+description: 'Store the floating-point number r as a 32-bit IEEE single-precision number at sf-addr.'

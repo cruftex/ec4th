@@ -1,0 +1,5 @@
+word: 'fdup'
+wordset: floating
+f12-slug: FDUP
+stack: '( F: r -- r r ) or'
+description: 'Duplicate r.'

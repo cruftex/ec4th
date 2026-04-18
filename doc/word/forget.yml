@@ -1,0 +1,5 @@
+word: 'forget'
+wordset: tools-ext
+f12-slug: FORGET
+stack: '( "<spaces>name" -- )'
+description: 'Parse name delimited by a space.'

@@ -1,0 +1,5 @@
+word: ';code'
+wordset: tools-ext
+f12-slug: SemiCODE
+stack: '( C: colon-sys -- )'
+description: 'Append the run-time semantics below to the current definition.'

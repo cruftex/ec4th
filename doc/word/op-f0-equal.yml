@@ -1,0 +1,5 @@
+word: 'f0='
+wordset: floating
+f12-slug: FZeroEqual
+stack: '( -- flag ) ( F: r -- ) or'
+description: 'Flag is true if and only if r is equal to zero.'

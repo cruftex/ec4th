@@ -1,0 +1,5 @@
+word: '>float'
+wordset: floating
+f12-slug: toFLOAT
+stack: '( c-addr u -- true | false )'
+description: 'An attempt is made to convert the string specified by c-addr and u to internal floating-point representation.'

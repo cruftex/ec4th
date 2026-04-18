@@ -1,0 +1,5 @@
+word: /string
+wordset: string
+f12-slug: DivSTRING
+stack: '( c-addr1 u1 n -- c-addr2 u2 )'
+description: 'Adjust the character string at c-addr1 by n characters.'

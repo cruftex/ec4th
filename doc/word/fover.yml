@@ -1,0 +1,5 @@
+word: 'fover'
+wordset: floating
+f12-slug: FOVER
+stack: '( F: r1 r2 -- r1 r2 r1 ) or'
+description: 'Place a copy of r1 on top of the floating-point stack.'

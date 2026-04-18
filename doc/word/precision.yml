@@ -1,0 +1,5 @@
+word: 'precision'
+wordset: floating-ext
+f12-slug: PRECISION
+stack: '( -- u )'
+description: 'Return the number of significant digits currently used by F., FE., or FS.'
