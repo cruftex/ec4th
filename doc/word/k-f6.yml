@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: K-F6
+stack: '( -- u )'
+description: 'Returns the code for the F6 key.'

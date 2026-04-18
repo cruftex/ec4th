@@ -1,2 +1,4 @@
 wordset: double
 f12-slug: TwoVARIABLE
+stack: '( "<spaces>name" -- )'
+description: 'Create a named double-cell storage area and leave its address when used.'

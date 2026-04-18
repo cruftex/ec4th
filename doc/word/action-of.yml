@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: ACTIONOF
+stack: '( "<spaces>name" -- xt )'
+description: 'Get the execution token currently stored in a deferred word.'

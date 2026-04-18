@@ -1,3 +1,5 @@
 word: "1-"
 wordset: core
 f12-slug: OneMinus
+stack: '( n1 | u1 -- n2 | u2 )'
+description: 'Subtract one (1) from n1 | u1 giving the difference n2 | u2.'

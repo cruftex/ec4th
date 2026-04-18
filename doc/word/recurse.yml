@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: RECURSE
+stack: '( -- )'
+description: 'Append the execution semantics of the current definition to the current definition.'

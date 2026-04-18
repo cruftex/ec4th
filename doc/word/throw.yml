@@ -1,2 +1,4 @@
 wordset: exception
 f12-slug: THROW
+stack: '( k * x n -- k * x | i * x n )'
+description: 'Raise an exception code. Zero does nothing; non-zero unwinds to the nearest catch.'

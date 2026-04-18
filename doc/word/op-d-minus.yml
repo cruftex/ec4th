@@ -1,3 +1,5 @@
 word: "d-"
 wordset: double
 f12-slug: DMinus
+stack: '( d1 | ud1 d2 | ud2 -- d3 | ud3 )'
+description: 'Subtract d2 | ud2 from d1 | ud1, giving the difference d3 | ud3.'

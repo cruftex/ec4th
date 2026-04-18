@@ -1,3 +1,5 @@
 word: "time&date"
 wordset: facility-ext
 f12-slug: TIMEandDATE
+stack: '( -- +n1 +n2 +n3 +n4 +n5 +n6 )'
+description: 'Return the current time and date.'

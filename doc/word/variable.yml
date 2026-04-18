@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: VARIABLE
+stack: '( "<spaces>name" -- )'
+description: 'Create a named cell in dictionary space and leave its address when used.'

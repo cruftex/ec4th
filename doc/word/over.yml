@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: OVER
+stack: '( x1 x2 -- x1 x2 x1 )'
+description: 'Place a copy of x1 on top of the stack.'

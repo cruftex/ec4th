@@ -1,3 +1,5 @@
 word: "du<"
 wordset: double-ext
 f12-slug: DULess
+stack: '( ud1 ud2 -- flag )'
+description: 'Flag is true if and only if ud1 is less than ud2.'

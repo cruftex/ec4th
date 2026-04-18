@@ -1,0 +1,11 @@
+\ Generated from forth-standard.org
+\ Word: abs
+\ Slug: abs
+\ Wordset: core
+\ Source: core/ABS
+
+\ T.6.1.0690 ABS
+T{ 0 ABS -> 0 }T
+T{ 1 ABS -> 1 }T
+T{ -1 ABS -> 1 }T
+T{ MIN-INT ABS -> MID-UINT+1 }T

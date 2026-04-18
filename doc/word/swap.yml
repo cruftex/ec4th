@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: SWAP
+stack: '( x1 x2 -- x2 x1 )'
+description: 'Exchange the top two stack items.'

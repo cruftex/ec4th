@@ -1,3 +1,5 @@
 word: "sm/rem"
 wordset: core
 f12-slug: SMDivREM
+stack: '( d1 n1 -- n2 n3 )'
+description: 'Divide d1 by n1, giving the symmetric quotient n3 and the remainder n2.'

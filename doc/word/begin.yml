@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: BEGIN
+stack: '( C: -- dest )'
+description: 'Put the next location for a transfer of control, dest, onto the control flow stack.'

@@ -1,3 +1,5 @@
 word: "buffer:"
 wordset: core-ext
 f12-slug: BUFFERcolon
+stack: '( u "<spaces>name" -- )'
+description: 'Create a named buffer of u address units.'

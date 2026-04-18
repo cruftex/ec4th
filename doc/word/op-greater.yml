@@ -1,3 +1,5 @@
 word: ">"
 wordset: core
 f12-slug: greater
+stack: '( n1 n2 -- flag )'
+description: 'Flag is true if and only if n1 is greater than n2.'

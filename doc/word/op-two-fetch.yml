@@ -1,3 +1,5 @@
 word: "2@"
 wordset: core
 f12-slug: TwoFetch
+stack: '( a-addr -- x1 x2 )'
+description: 'Fetch the cell pair x1 x2 stored at a-addr.'

@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: EKEY
+stack: '( -- x )'
+description: 'Receive one keyboard event x.'

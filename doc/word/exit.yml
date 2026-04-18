@@ -1,2 +1,5 @@
 wordset: core
 f12-slug: EXIT
+stack: '( -- )'
+return-stack: '( R: nest-sys -- )'
+description: 'Return from the current definition.'

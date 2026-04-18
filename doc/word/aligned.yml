@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: ALIGNED
+stack: '( addr -- a-addr )'
+description: 'A-addr is the first aligned address greater than or equal to addr.'

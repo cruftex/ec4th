@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: REFILL
+stack: '( -- flag )'
+description: 'Attempt to fill the input buffer from the input source, returning a true flag if successful.'

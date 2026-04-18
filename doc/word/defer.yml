@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: DEFER
+stack: '( "<spaces>name" -- )'
+description: 'Create a deferred word whose behavior can be assigned later.'

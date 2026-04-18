@@ -1,6 +1,6 @@
 # optional, if omitted idential to the file name without extension
 word: dup
 f12-slug: DUP
+stack: '( x -- x x )'
+description: 'Duplicate x.'
 wordset: core
-description: "Duplicate top of stack"
-stack: "( x -- x x )"

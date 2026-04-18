@@ -1,3 +1,5 @@
 word: "[char]"
 wordset: core
 f12-slug: BracketCHAR
+stack: '( "<spaces>name" -- )'
+description: 'Compile the character value of the next parsed word.'

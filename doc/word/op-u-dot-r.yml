@@ -1,3 +1,5 @@
 word: "u.r"
 wordset: core-ext
 f12-slug: UDotR
+stack: '( u n -- )'
+description: 'Print u right aligned in a field n characters wide.'

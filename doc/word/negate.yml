@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: NEGATE
+stack: '( n1 -- n2 )'
+description: 'Negate n1, giving its arithmetic inverse n2.'

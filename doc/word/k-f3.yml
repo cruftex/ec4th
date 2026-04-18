@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: K-F3
+stack: '( -- u )'
+description: 'Returns the code for the F3 key.'

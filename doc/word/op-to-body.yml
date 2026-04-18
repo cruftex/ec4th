@@ -1,3 +1,5 @@
 word: ">body"
 wordset: core
 f12-slug: toBODY
+stack: '( xt -- a-addr )'
+description: 'A-addr is the data-field address corresponding to xt.'

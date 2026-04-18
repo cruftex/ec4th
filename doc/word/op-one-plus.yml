@@ -1,3 +1,5 @@
 word: "1+"
 wordset: core
 f12-slug: OnePlus
+stack: '( n1 | u1 -- n2 | u2 )'
+description: 'Add one (1) to n1 | u1 giving the sum n2 | u2.'

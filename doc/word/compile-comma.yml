@@ -1,3 +1,5 @@
 word: "compile,"
 wordset: core-ext
 f12-slug: COMPILEcomma
+stack: '( xt -- )'
+description: 'Append the execution semantics of the definition represented by xt to the execution semantics of the current definition.'

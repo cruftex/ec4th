@@ -1,2 +1,4 @@
 wordset: double
 f12-slug: DABS
+stack: '( d -- ud )'
+description: 'Ud is the absolute value of d.'

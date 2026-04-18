@@ -1,2 +1,4 @@
 wordset: double-ext
 f12-slug: TwoVALUE
+stack: '( x1 x2 "<spaces>name" -- )'
+description: 'Create a named double-cell value that pushes its current contents.'

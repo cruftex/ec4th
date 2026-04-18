@@ -1,3 +1,5 @@
 word: "ekey>char"
 wordset: facility-ext
 f12-slug: EKEYtoCHAR
+stack: '( x -- x false | char true )'
+description: 'If the keyboard event x corresponds to a character in the implementation-defined character set, return that character and true.'

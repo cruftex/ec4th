@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: WITHIN
+stack: '( n1 | u1 n2 | u2 n3 | u3 -- flag )'
+description: 'Perform a comparison of a test value n1 | u1 with a lower limit n2 | u2 and an upper limit n3 | u3, returning true if either n1 | u1 < n3 | u3)) or n1 | u1 < n3 | u3)) is true, returning false otherwise.'

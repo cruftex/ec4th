@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: NIP
+stack: '( x1 x2 -- x2 )'
+description: 'Drop the first item below the top of stack.'

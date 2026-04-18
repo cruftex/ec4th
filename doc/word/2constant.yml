@@ -1,2 +1,4 @@
 wordset: double
 f12-slug: TwoCONSTANT
+stack: '( x1 x2 "<spaces>name" -- )'
+description: 'Create a named double-cell value that pushes x1 x2 when used.'

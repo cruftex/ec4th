@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: HOLD
+stack: '( char -- )'
+description: 'Add char to the beginning of the pictured numeric output string.'

@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: TwoDrop
+stack: '( x1 x2 -- )'
+description: 'Drop cell pair x1 x2 from the stack.'

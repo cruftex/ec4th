@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: UNTIL
+stack: '( C: dest -- )'
+description: 'Compile a conditional branch back to the matching begin.'

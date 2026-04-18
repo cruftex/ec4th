@@ -1,3 +1,5 @@
 word: ":noname"
 wordset: core-ext
 f12-slug: ColonNONAME
+stack: '( C: -- colon-sys )'
+description: 'Create an execution token xt, enter compilation state and start the current definition, producing colon-sys.'

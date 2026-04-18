@@ -1,3 +1,5 @@
 word: 'c"'
 wordset: core-ext
 f12-slug: CQuote
+stack: '( "ccc<quote>" -- )'
+description: 'Parse ccc delimited by " (double-quote) and append the run-time semantics given below to the current definition.'

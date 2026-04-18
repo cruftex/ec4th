@@ -1,2 +1,6 @@
 wordset: core
 f12-slug: STATE
+stack: '( -- a-addr )'
+description: 'A-addr is the address of a cell containing the compilation-state flag.'
+also-wordsets:
+- tools

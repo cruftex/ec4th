@@ -1,3 +1,6 @@
 word: "2>r"
 wordset: core-ext
 f12-slug: TwotoR
+stack: '( x1 x2 -- )'
+return-stack: '( R: -- x1 x2 )'
+description: 'Transfer cell pair x1 x2 to the return stack.'

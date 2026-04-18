@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: ERASE
+stack: '( addr u -- )'
+description: 'If u is greater than zero, clear all bits in each of u consecutive address units of memory beginning at addr.'

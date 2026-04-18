@@ -1,3 +1,5 @@
 word: "emit?"
 wordset: facility-ext
 f12-slug: EMITq
+stack: '( -- flag )'
+description: 'Flag is true if the user output device is ready to accept data and the execution of EMIT in place of EMIT?.'

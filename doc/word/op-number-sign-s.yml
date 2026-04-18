@@ -1,3 +1,5 @@
 word: "#s"
 wordset: core
 f12-slug: numS
+stack: '( ud1 -- ud2 )'
+description: 'Convert one digit of ud1 according to the rule for #.'

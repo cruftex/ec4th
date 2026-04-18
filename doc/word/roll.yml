@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: ROLL
+stack: '( xu xu-1 ... x0 u -- xu-1 ... x0 xu )'
+description: 'Drop u.'

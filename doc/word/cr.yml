@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: CR
+stack: '( -- )'
+description: 'Cause subsequent output to appear at the beginning of the next line.'

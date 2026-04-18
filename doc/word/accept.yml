@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: ACCEPT
+stack: '( c-addr +n1 -- +n2 )'
+description: 'Receive a string of at most +n1 characters.'

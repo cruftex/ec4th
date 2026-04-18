@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: ALLOT
+stack: '( n -- )'
+description: 'If n is greater than zero, reserve n address units of data space.'

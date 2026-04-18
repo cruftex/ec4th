@@ -1,3 +1,5 @@
 word: "+"
 wordset: core
 f12-slug: Plus
+stack: '( n1 | u1 n2 | u2 -- n3 | u3 )'
+description: 'Add n2 | u2 to n1 | u1, giving the sum n3 | u3.'

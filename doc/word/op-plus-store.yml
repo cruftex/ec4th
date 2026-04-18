@@ -1,3 +1,5 @@
 word: "+!"
 wordset: core
 f12-slug: PlusStore
+stack: '( n | u a-addr -- )'
+description: 'Add n | u to the single-cell number at a-addr.'

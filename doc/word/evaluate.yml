@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: EVALUATE
+stack: '( i * x c-addr u -- j * x )'
+description: 'Save the current input source specification.'

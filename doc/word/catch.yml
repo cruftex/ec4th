@@ -1,2 +1,4 @@
 wordset: exception
 f12-slug: CATCH
+stack: '( i * x xt -- j * x 0 | i * x n )'
+description: 'Run xt and catch any thrown exception code instead of letting it unwind further.'

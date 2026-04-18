@@ -1,3 +1,5 @@
 word: "d+"
 wordset: double
 f12-slug: DPlus
+stack: '( d1 | ud1 d2 | ud2 -- d3 | ud3 )'
+description: 'Add d2 | ud2 to d1 | ud1, giving the sum d3 | ud3.'

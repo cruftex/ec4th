@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: TYPE
+stack: '( c-addr u -- )'
+description: 'If u is greater than zero, display the character string specified by c-addr and u.'

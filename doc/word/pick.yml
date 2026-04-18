@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: PICK
+stack: '( xu...x1 x0 u -- xu...x1 x0 xu )'
+description: 'Drop u.'

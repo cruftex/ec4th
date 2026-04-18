@@ -1,2 +1,4 @@
 wordset: double
 f12-slug: DMIN
+stack: '( d1 d2 -- d3 )'
+description: 'D3 is the lesser of d1 and d2.'

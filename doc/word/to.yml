@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: TO
+stack: '( i * x "<spaces>name" -- )'
+description: 'Perform the "TO name run-time" semantics given in the definition for the defining word of name.'

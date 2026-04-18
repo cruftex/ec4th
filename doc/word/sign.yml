@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: SIGN
+stack: '( n -- )'
+description: 'If n is negative, add a minus sign to the beginning of the pictured numeric output string.'

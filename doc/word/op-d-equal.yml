@@ -1,3 +1,5 @@
 word: "d="
 wordset: double
 f12-slug: DEqual
+stack: '( xd1 xd2 -- flag )'
+description: 'Flag is true if and only if xd1 is bit-for-bit the same as xd2.'

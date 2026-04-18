@@ -1,2 +1,4 @@
 wordset: facility
 f12-slug: AT-XY
+stack: '( u1 u2 -- )'
+description: 'Perform implementation-dependent steps so that the next character displayed will appear in column u1, row u2 of the user output device, the upper left corner of which is column zero, row zero.'

@@ -1,3 +1,6 @@
 word: ">r"
 wordset: core
 f12-slug: toR
+stack: '( x -- )'
+return-stack: '( R: -- x )'
+description: 'Move x to the return stack.'

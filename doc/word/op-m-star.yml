@@ -1,3 +1,5 @@
 word: "m*"
 wordset: core
 f12-slug: MStar
+stack: '( n1 n2 -- d )'
+description: 'D is the signed product of n1 times n2.'

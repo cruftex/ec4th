@@ -1,3 +1,5 @@
 word: "?dup"
 wordset: core
 f12-slug: qDUP
+stack: '( x -- 0 | x x )'
+description: 'Duplicate x if it is non-zero.'

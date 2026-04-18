@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: CREATE
+stack: '( "<spaces>name" -- )'
+description: 'Create a new dictionary entry whose run-time behavior leaves its data-field address.'

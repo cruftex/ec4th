@@ -1,3 +1,5 @@
 word: "2!"
 wordset: core
 f12-slug: TwoStore
+stack: '( x1 x2 a-addr -- )'
+description: 'Store the cell pair x1 x2 at a-addr, with x2 at a-addr and x1 at the next consecutive cell.'

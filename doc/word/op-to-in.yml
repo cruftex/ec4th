@@ -1,3 +1,5 @@
 word: ">in"
 wordset: core
 f12-slug: toIN
+stack: '( -- a-addr )'
+description: 'A-addr is the address of a cell containing the offset in characters from the start of the input buffer to the start of the parse area.'

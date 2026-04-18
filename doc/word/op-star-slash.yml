@@ -1,3 +1,5 @@
 word: "*/"
 wordset: core
 f12-slug: TimesDiv
+stack: '( n1 n2 n3 -- n4 )'
+description: 'Multiply n1 by n2 producing the intermediate double-cell result d.'

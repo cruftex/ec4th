@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: TUCK
+stack: '( x1 x2 -- x2 x1 x2 )'
+description: 'Copy the first (top) stack item below the second stack item.'

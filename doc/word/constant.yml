@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: CONSTANT
+stack: '( x "<spaces>name" -- )'
+description: 'Create a named value that pushes x when used.'

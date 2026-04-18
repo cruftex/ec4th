@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: ROT
+stack: '( x1 x2 x3 -- x2 x3 x1 )'
+description: 'Rotate the top three stack entries.'

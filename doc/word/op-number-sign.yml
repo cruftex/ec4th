@@ -1,3 +1,5 @@
 word: "#"
 wordset: core
 f12-slug: num
+stack: '( ud1 -- ud2 )'
+description: 'Divide ud1 by the number in BASE giving the quotient ud2 and the remainder n.'

@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: PARSENAME
+stack: '( "<spaces>name<space>" -- c-addr u )'
+description: 'Parse the next name and return its address and length.'

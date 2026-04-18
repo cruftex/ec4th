@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: SPACE
+stack: '( -- )'
+description: 'Print one space.'

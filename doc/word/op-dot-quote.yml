@@ -1,3 +1,5 @@
 word: '."'
 wordset: core
 f12-slug: DotQuote
+stack: '( "ccc<quote>" -- )'
+description: 'Parse ccc delimited by " (double-quote).'

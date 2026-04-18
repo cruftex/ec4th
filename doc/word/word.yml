@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: WORD
+stack: '( char "<chars>ccc<char>" -- c-addr )'
+description: 'Parse characters ccc delimited by char.'

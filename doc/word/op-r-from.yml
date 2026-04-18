@@ -1,3 +1,6 @@
 word: "r>"
 wordset: core
 f12-slug: RFrom
+stack: '( -- x )'
+return-stack: '( R: x -- )'
+description: 'Move x from the return stack to the stack.'

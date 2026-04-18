@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: K-END
+stack: '( -- u )'
+description: 'Returns the code for the End key.'

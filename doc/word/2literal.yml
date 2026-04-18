@@ -1,2 +1,4 @@
 wordset: double
 f12-slug: TwoLITERAL
+stack: '( x1 x2 -- )'
+description: 'Compile code to leave x1 x2 on the stack at run time.'

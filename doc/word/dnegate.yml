@@ -1,2 +1,4 @@
 wordset: double
 f12-slug: DNEGATE
+stack: '( d1 -- d2 )'
+description: 'D2 is the negation of d1.'

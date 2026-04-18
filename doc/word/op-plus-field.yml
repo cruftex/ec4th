@@ -1,3 +1,5 @@
 word: "+field"
 wordset: facility-ext
 f12-slug: PlusFIELD
+stack: '( n1 n2 "<spaces>name" -- n3 )'
+description: 'Create a new field with the given size and return the next offset.'

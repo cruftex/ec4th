@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: COUNT
+stack: '( c-addr1 -- c-addr2 u )'
+description: 'Return the character string specification for the counted string stored at c-addr1.'

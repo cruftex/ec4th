@@ -1,3 +1,5 @@
 word: "c,"
 wordset: core
 f12-slug: CComma
+stack: '( char -- )'
+description: 'Reserve space for one character in the data space and store char in the space.'

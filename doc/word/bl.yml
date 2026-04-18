@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: BL
+stack: '( -- char )'
+description: 'Char is the character value for a space.'

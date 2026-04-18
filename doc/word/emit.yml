@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: EMIT
+stack: '( x -- )'
+description: 'If x is a graphic character in the implementation-defined character set, display x.'

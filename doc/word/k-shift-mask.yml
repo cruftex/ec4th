@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: K-SHIFT-MASK
+stack: '( -- u )'
+description: 'Mask for the Shift key, that can be ORed with the key value to produce a value that the sequence EKEY EKEY>FKEY may produce when the user presses the corresponding key combination.'

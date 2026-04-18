@@ -1,3 +1,5 @@
 word: ":"
 wordset: core
 f12-slug: Colon
+stack: '( C: "<spaces>name" -- colon-sys )'
+description: 'Start a new colon definition.'

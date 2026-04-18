@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: DEPTH
+stack: '( -- +n )'
+description: '+n is the number of single-cell values contained in the stack before +n was placed on the stack.'

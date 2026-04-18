@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: EXECUTE
+stack: '( i * x xt -- j * x )'
+description: 'Drop xt from the stack and perform the semantics identified by it.'

@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: ABS
+stack: '( n -- u )'
+description: 'Return the absolute value of n.'

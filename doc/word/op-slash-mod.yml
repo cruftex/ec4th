@@ -1,3 +1,5 @@
 word: "/mod"
 wordset: core
 f12-slug: DivMOD
+stack: '( n1 n2 -- n3 n4 )'
+description: 'Divide n1 by n2, giving the single-cell remainder n3 and the single-cell quotient n4.'

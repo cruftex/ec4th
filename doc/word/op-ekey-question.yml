@@ -1,3 +1,5 @@
 word: "ekey?"
 wordset: facility-ext
 f12-slug: EKEYq
+stack: '( -- flag )'
+description: 'If a keyboard event is available, return true.'

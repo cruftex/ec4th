@@ -230,9 +230,10 @@ Variable lastcfa
 
 0 Constant defstart
 
-: ?struc ( colon-sys -- )
-\G expects 0 to check for imablanced conditionals
-    abort" unstructured " ;
+\ defined in flow-control.fs
+\ : ?struc ( colon-sys -- )
+\ \G expects 0 to check for imablanced conditionals
+\     abort" unstructured " ;
 
 : cfa,
     align here lastcfa ! ,  0 , ;

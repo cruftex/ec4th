@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: ALIGN
+stack: '( -- )'
+description: 'If the dictionary-space pointer is not aligned, reserve enough space to align it.'

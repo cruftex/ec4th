@@ -1,3 +1,5 @@
 word: "d.r"
 wordset: double
 f12-slug: DDotR
+stack: '( d n -- )'
+description: 'Print d right aligned in a field n characters wide.'

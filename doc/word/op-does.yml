@@ -1,3 +1,5 @@
 word: "does>"
 wordset: core
 f12-slug: DOES
+stack: '( C: colon-sys1 -- colon-sys2 )'
+description: 'Give the most recently created word custom run-time behavior.'

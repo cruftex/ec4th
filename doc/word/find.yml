@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: FIND
+stack: '( c-addr -- c-addr 0 | xt 1 | xt -1 )'
+description: 'Find the definition named in the counted string at c-addr.'

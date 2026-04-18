@@ -1,3 +1,5 @@
 word: "d2*"
 wordset: double
 f12-slug: DTwoStar
+stack: '( xd1 -- xd2 )'
+description: 'Xd2 is the result of shifting xd1 one bit toward the most-significant bit, filling the vacated least-significant bit with zero.'

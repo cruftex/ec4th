@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: IS
+stack: '( xt "<spaces>name" -- )'
+description: 'Set the behavior of a deferred word to xt.'

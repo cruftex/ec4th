@@ -1,3 +1,6 @@
 word: "r@"
 wordset: core
 f12-slug: RFetch
+stack: '( -- x )'
+return-stack: '( R: x -- x )'
+description: 'Copy x from the return stack to the stack.'

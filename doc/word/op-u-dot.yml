@@ -1,3 +1,5 @@
 word: "u."
 wordset: core
 f12-slug: UDot
+stack: '( u -- )'
+description: 'Print u in free field format.'

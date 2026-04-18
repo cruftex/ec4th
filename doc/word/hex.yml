@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: HEX
+stack: '( -- )'
+description: 'Set contents of BASE to sixteen.'

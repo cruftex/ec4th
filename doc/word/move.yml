@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: MOVE
+stack: '( addr1 addr2 u -- )'
+description: 'If u is greater than zero, copy the contents of u consecutive address units at addr1 to the u consecutive address units at addr2.'

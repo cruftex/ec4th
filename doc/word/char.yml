@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: CHAR
+stack: '( "<spaces>name" -- char )'
+description: 'Parse the next word and return its first character.'

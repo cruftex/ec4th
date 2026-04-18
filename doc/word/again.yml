@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: AGAIN
+stack: '( C: dest -- )'
+description: 'Compile an unconditional branch back to the matching begin.'

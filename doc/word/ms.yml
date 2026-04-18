@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: MS
+stack: '( u -- )'
+description: 'Wait at least u milliseconds.'

@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: LITERAL
+stack: '( x -- )'
+description: 'Compile code to leave x on the stack at run time.'

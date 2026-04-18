@@ -1,3 +1,5 @@
 word: "d."
 wordset: double
 f12-slug: DDot
+stack: '( d -- )'
+description: 'Print d in free field format.'

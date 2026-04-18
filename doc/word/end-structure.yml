@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: END-STRUCTURE
+stack: '( struct-sys +n -- )'
+description: 'Terminate definition of a structure started by BEGIN-STRUCTURE.'

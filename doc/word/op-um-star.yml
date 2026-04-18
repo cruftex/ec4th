@@ -1,3 +1,5 @@
 word: "um*"
 wordset: core
 f12-slug: UMStar
+stack: '( u1 u2 -- ud )'
+description: 'Multiply u1 by u2, giving the unsigned double-cell product ud.'

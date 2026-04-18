@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: IMMEDIATE
+stack: '( -- )'
+description: 'Make the most recent definition an immediate word.'

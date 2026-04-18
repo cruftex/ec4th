@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: HERE
+stack: '( -- addr )'
+description: 'Addr is the dictionary-space pointer.'

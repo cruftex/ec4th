@@ -1,3 +1,5 @@
 word: "char+"
 wordset: core
 f12-slug: CharPlus
+stack: '( c-addr1 -- c-addr2 )'
+description: 'Add the size in address units of a character to c-addr1, giving c-addr2.'

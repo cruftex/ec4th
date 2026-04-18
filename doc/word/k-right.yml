@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: K-RIGHT
+stack: '( -- u )'
+description: 'Returns the code for the cursor right key.'

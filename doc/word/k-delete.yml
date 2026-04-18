@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: K-DELETE
+stack: '( -- u )'
+description: 'Returns the code for the Delete key.'

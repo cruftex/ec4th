@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: MIN
+stack: '( n1 n2 -- n3 )'
+description: 'N3 is the lesser of n1 and n2.'

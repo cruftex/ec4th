@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: IF
+stack: '( C: -- orig )'
+description: 'Put the location of a new unresolved forward reference orig onto the control flow stack.'

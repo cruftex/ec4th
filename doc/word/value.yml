@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: VALUE
+stack: '( x "<spaces>name" -- )'
+description: 'Create a named value that pushes its current contents.'

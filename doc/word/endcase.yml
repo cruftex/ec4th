@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: ENDCASE
+stack: '( C: case-sys -- )'
+description: 'Mark the end of the CASE...OF...ENDOF...ENDCASE structure.'

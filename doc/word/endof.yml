@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: ENDOF
+stack: '( C: case-sys1 of-sys -- case-sys2 )'
+description: 'Mark the end of the OF...ENDOF part of the CASE structure.'

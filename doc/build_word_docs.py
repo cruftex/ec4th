@@ -15,7 +15,7 @@ except ImportError as exc:
 
 TAG_RE = re.compile(r'^(?P<word>\S+)\s+(?P<path>\S+)\s+(?P<line>\d+);"(?:\s.*)?$')
 VARIANT_RE = re.compile(r"^ec4th-(?P<variant>.+)\.tags$")
-SAFE_WORD_RE = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
+SAFE_WORD_RE = re.compile(r"^[a-z0-9]+(?:[_-][a-z0-9]+)*$")
 SYMBOL_NAME_MAP = {
     "!": "store",
     '"': "quote",
@@ -61,6 +61,7 @@ class WordDoc:
     also_wordsets: Optional[List[str]] = None
     description: Optional[str] = None
     stack: Optional[str] = None
+    return_stack: Optional[str] = None
     source_file: Optional[Path] = None
 
 
@@ -112,6 +113,7 @@ def load_word_docs(word_dir: Path) -> tuple[Dict[str, WordDoc], Dict[str, WordDo
             also_wordsets=list(raw.get("also-wordsets") or []),
             description=raw.get("description"),
             stack=raw.get("stack"),
+            return_stack=raw.get("return-stack"),
             source_file=path,
         )
 
@@ -369,6 +371,7 @@ def render_profile_word_page(pw: ProfileWord) -> str:
     title = pw.doc.word if pw.doc is not None else pw.word
     desc = pw.doc.description if pw.doc is not None else None
     stack = pw.doc.stack if pw.doc is not None else None
+    return_stack = pw.doc.return_stack if pw.doc is not None else None
     wordsets = iter_wordsets(pw.doc) if pw.doc is not None else []
     f12_slug = pw.doc.f12_slug if pw.doc is not None else None
 
@@ -403,6 +406,12 @@ def render_profile_word_page(pw: ProfileWord) -> str:
         parts.append(f"`{md_escape_inline(stack)}`")
         parts.append("")
 
+    if return_stack:
+        parts.append("## Return Stack")
+        parts.append("")
+        parts.append(f"`{md_escape_inline(return_stack)}`")
+        parts.append("")
+
     parts.append("## Entry")
     parts.append("")
     parts.append(f"- slug: `{pw.slug}`")
@@ -415,6 +424,7 @@ def render_global_word_page(slug: str, occurrences: List[ProfileWord], doc: Opti
     display_word = doc.word if doc is not None else occurrences[0].word
     desc = doc.description if doc is not None else None
     stack = doc.stack if doc is not None else None
+    return_stack = doc.return_stack if doc is not None else None
     wordsets = iter_wordsets(doc) if doc is not None else []
     f12_slug = doc.f12_slug if doc is not None else None
 
@@ -445,6 +455,12 @@ def render_global_word_page(slug: str, occurrences: List[ProfileWord], doc: Opti
         parts.append("## Stack")
         parts.append("")
         parts.append(f"`{md_escape_inline(stack)}`")
+        parts.append("")
+
+    if return_stack:
+        parts.append("## Return Stack")
+        parts.append("")
+        parts.append(f"`{md_escape_inline(return_stack)}`")
         parts.append("")
 
     parts.append("## Available in Targets")

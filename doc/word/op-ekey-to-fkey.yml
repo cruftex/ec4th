@@ -1,3 +1,5 @@
 word: "ekey>fkey"
 wordset: facility-ext
 f12-slug: EKEYtoFKEY
+stack: '( x -- u flag )'
+description: "If the keyboard event x corresponds to a keypress in the implementation-defined special key set, return that key's id u and true."

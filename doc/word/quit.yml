@@ -1,2 +1,5 @@
 wordset: core
 f12-slug: QUIT
+stack: '( -- )'
+return-stack: '( R: i * x -- )'
+description: 'Empty the return stack, store zero in SOURCE-ID if it is present, make the user input device the input source, and enter interpretation state.'

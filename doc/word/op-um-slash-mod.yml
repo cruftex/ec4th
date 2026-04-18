@@ -1,3 +1,5 @@
 word: "um/mod"
 wordset: core
 f12-slug: UMDivMOD
+stack: '( ud u1 -- u2 u3 )'
+description: 'Divide ud by u1, giving the quotient u3 and the remainder u2.'

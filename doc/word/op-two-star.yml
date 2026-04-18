@@ -1,3 +1,5 @@
 word: "2*"
 wordset: core
 f12-slug: TwoStar
+stack: '( x1 -- x2 )'
+description: 'X2 is the result of shifting x1 one bit toward the most-significant bit, filling the vacated least-significant bit with zero.'

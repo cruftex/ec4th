@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: K-FOneZero
+stack: '( -- u )'
+description: 'Returns the code for the F10 key.'

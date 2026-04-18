@@ -1,3 +1,5 @@
 word: 's\\"'
 wordset: core-ext
 f12-slug: BackslashQuote
+stack: '( "ccc<quote>" -- )'
+description: 'Parse ccc delimited by " (double-quote), using the translation rules below.'

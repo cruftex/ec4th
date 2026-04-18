@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: HOLDS
+stack: '( c-addr u -- )'
+description: 'Adds the string represented by c-addr u to the pictured numeric output string.'

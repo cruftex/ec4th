@@ -1,3 +1,5 @@
 word: "/"
 wordset: core
 f12-slug: Slash
+stack: '( n1 n2 -- n3 )'
+description: 'Divide n1 by n2, giving the single-cell quotient n3.'

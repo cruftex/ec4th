@@ -1,2 +1,5 @@
 wordset: core
 f12-slug: UNLOOP
+stack: '( -- )'
+return-stack: '( R: loop-sys -- )'
+description: 'Discard the loop-control parameters for the current nesting level.'

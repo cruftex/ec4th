@@ -1,3 +1,5 @@
 word: "'"
 wordset: core
 f12-slug: Tick
+stack: '( "<spaces>name" -- xt )'
+description: 'Parse the next word and return its execution token.'

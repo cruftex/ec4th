@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: KEY
+stack: '( -- char )'
+description: 'Receive one character char, a member of the implementation-defined character set.'

@@ -1,3 +1,5 @@
 word: ".r"
 wordset: core-ext
 f12-slug: DotR
+stack: '( n1 n2 -- )'
+description: 'Print n1 right aligned in a field n2 characters wide.'

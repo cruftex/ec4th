@@ -1,3 +1,5 @@
 word: "*"
 wordset: core
 f12-slug: Star
+stack: '( n1 | u1 n2 | u2 -- n3 | u3 )'
+description: 'Multiply n1 | u1 by n2 | u2 giving the product n3 | u3.'

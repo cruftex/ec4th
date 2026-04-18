@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: LOOP
+stack: '( C: do-sys -- )'
+description: 'Compile the loop step and branch back to the matching do.'

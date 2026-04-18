@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: UNUSED
+stack: '( -- u )'
+description: 'U is the amount of space remaining in the region addressed by HERE, in address units.'

@@ -1,2 +1,4 @@
 wordset: facility
 f12-slug: PAGE
+stack: '( -- )'
+description: 'Move to another page for output.'

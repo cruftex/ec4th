@@ -1,3 +1,6 @@
 word: "2r>"
 wordset: core-ext
 f12-slug: TwoRfrom
+stack: '( -- x1 x2 )'
+return-stack: '( R: x1 x2 -- )'
+description: 'Transfer cell pair x1 x2 from the return stack.'

@@ -1,5 +1,7 @@
 wordset: core
 also-wordsets:
   - exception-ext
-description: Extended semantics are defined in `exception-ext` as equivalent to {forth:word}`throw` with `-1`.
 f12-slug: ABORT
+stack: '( i * x -- )'
+return-stack: '( R: j * x -- )'
+description: 'Stops the current interpretation or execution and throws the standard abort condition.'

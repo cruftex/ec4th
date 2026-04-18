@@ -1,3 +1,5 @@
 word: ","
 wordset: core
 f12-slug: Comma
+stack: '( x -- )'
+description: 'Reserve one cell of data space and store x in the cell.'

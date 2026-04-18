@@ -1,3 +1,5 @@
 word: "defer@"
 wordset: core-ext
 f12-slug: DEFERFetch
+stack: '( xt1 -- xt2 )'
+description: 'Xt2 is the execution token xt1 is set to execute.'

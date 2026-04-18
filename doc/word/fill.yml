@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: FILL
+stack: '( c-addr u char -- )'
+description: 'If u is greater than zero, store char in each of u consecutive characters of memory beginning at c-addr.'

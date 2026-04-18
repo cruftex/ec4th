@@ -1,3 +1,5 @@
 word: "m*/"
 wordset: double
 f12-slug: MTimesDiv
+stack: '( d1 n1 +n2 -- d2 )'
+description: 'Multiply d1 by n1 producing the triple-cell intermediate result t.'

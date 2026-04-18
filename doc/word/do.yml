@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: DO
+stack: '( C: -- do-sys )'
+description: 'Place do-sys onto the control-flow stack.'

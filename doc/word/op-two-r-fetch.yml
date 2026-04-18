@@ -1,3 +1,6 @@
 word: "2r@"
 wordset: core-ext
 f12-slug: TwoRFetch
+stack: '( -- x1 x2 )'
+return-stack: '( R: x1 x2 -- x1 x2 )'
+description: 'Copy cell pair x1 x2 from the return stack.'

@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: CASE
+stack: '( C: -- case-sys )'
+description: 'Mark the start of the CASE...OF...ENDOF...ENDCASE structure.'

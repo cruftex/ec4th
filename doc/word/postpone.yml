@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: POSTPONE
+stack: '( "<spaces>name" -- )'
+description: 'Compile the compilation behavior of the next parsed word.'

@@ -1,3 +1,5 @@
 word: "s>d"
 wordset: core
 f12-slug: StoD
+stack: '( n -- d )'
+description: 'Convert the number n to the double-cell number d with the same numerical value.'

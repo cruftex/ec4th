@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: DECIMAL
+stack: '( -- )'
+description: 'Set the numeric conversion radix to ten (decimal).'

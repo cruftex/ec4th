@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: PARSE
+stack: '( char "ccc<char>" -- c-addr u )'
+description: 'Parse ccc delimited by the delimiter char.'

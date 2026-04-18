@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: DROP
+stack: '( x -- )'
+description: 'Drop x from the stack.'

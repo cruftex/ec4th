@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: INVERT
+stack: '( x1 -- x2 )'
+description: 'Invert all bits of x1, giving its logical inverse x2.'

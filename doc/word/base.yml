@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: BASE
+stack: '( -- a-addr )'
+description: 'A-addr is the address of a cell containing the current number-conversion radix {{2...36}}.'

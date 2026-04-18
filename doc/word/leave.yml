@@ -1,2 +1,5 @@
 wordset: core
 f12-slug: LEAVE
+stack: '( -- )'
+return-stack: '( R: loop-sys -- )'
+description: 'Exit the current loop at the next loop boundary.'

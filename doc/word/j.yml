@@ -1,2 +1,5 @@
 wordset: core
 f12-slug: J
+stack: '( -- n | u )'
+return-stack: '( R: loop-sys1 loop-sys2 -- loop-sys1 loop-sys2 )'
+description: 'N | u is a copy of the next-outer loop index.'

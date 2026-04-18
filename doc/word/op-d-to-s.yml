@@ -1,3 +1,5 @@
 word: "d>s"
 wordset: double
 f12-slug: DtoS
+stack: '( d -- n )'
+description: 'N is the equivalent of d.'

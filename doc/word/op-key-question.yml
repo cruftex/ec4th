@@ -1,3 +1,5 @@
 word: "key?"
 wordset: facility
 f12-slug: KEYq
+stack: '( -- flag )'
+description: 'If a character is available, return true.'

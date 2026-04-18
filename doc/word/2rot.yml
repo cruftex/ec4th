@@ -1,2 +1,4 @@
 wordset: double-ext
 f12-slug: TwoROT
+stack: '( x1 x2 x3 x4 x5 x6 -- x3 x4 x5 x6 x1 x2 )'
+description: 'Rotate the top three cell pairs on the stack bringing cell pair x1 x2 to the top of the stack.'

@@ -1,3 +1,5 @@
 word: "-"
 wordset: core
 f12-slug: Minus
+stack: '( n1 | u1 n2 | u2 -- n3 | u3 )'
+description: 'Subtract n2 | u2 from n1 | u1, giving the difference n3 | u3.'

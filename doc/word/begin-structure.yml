@@ -1,2 +1,4 @@
 wordset: facility-ext
 f12-slug: BEGIN-STRUCTURE
+stack: '( "<spaces>name" -- struct-sys 0 )'
+description: 'Start a structure definition and return the current offset.'

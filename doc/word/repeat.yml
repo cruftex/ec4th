@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: REPEAT
+stack: '( C: orig dest -- )'
+description: 'Compile the branch back to begin and resolve the matching while.'

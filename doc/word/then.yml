@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: THEN
+stack: '( C: orig -- )'
+description: 'Resolve the forward branch left by if, ahead, or else.'

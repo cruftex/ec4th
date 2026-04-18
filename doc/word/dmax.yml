@@ -1,2 +1,4 @@
 wordset: double
 f12-slug: DMAX
+stack: '( d1 d2 -- d3 )'
+description: 'D3 is the greater of d1 and d2.'

@@ -1,0 +1,13 @@
+\ Generated from forth-standard.org
+\ Word: fill
+\ Slug: fill
+\ Wordset: core
+\ Source: core/FILL
+
+\ T.6.1.1540 FILL
+T{ FBUF 0 20 FILL -> }T
+T{ SEEBUF -> 00 00 00 }T
+T{ FBUF 1 20 FILL -> }T
+T{ SEEBUF -> 20 00 00 }T
+T{ FBUF 3 20 FILL -> }T
+T{ SEEBUF -> 20 20 20 }T

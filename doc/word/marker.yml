@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: MARKER
+stack: '( "<spaces>name" -- )'
+description: 'Create a named marker that restores the dictionary to this point when executed.'

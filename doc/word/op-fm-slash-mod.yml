@@ -1,3 +1,5 @@
 word: "fm/mod"
 wordset: core
 f12-slug: FMDivMOD
+stack: '( d1 n1 -- n2 n3 )'
+description: 'Divide d1 by n1, giving the floored quotient n3 and the remainder n2.'

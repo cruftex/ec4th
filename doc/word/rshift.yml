@@ -1,2 +1,4 @@
 wordset: core
 f12-slug: RSHIFT
+stack: '( x1 u -- x2 )'
+description: 'Perform a logical right shift of u bit-places on x1, giving x2.'

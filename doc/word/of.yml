@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: OF
+stack: '( C: -- of-sys )'
+description: 'Put of-sys onto the control flow stack.'

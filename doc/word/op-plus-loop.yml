@@ -1,3 +1,5 @@
 word: "+loop"
 wordset: core
 f12-slug: PlusLoop
+stack: '( C: do-sys -- )'
+description: 'Compile the loop step by n and branch back to the matching do.'

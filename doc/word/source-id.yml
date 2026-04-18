@@ -1,2 +1,4 @@
 wordset: core-ext
 f12-slug: SOURCEID
+stack: '( -- 0 | -1 )'
+description: 'Identifies the input source as follows: SOURCE-ID Input source -1 String (via EVALUATE) 0 User input device.'

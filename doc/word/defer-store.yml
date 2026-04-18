@@ -1,3 +1,5 @@
 word: "defer!"
 wordset: core-ext
 f12-slug: DEFERStore
+stack: '( xt2 xt1 -- )'
+description: 'Set the word xt1 to execute xt2.'

@@ -1,3 +1,5 @@
 word: "environment?"
 wordset: core
 f12-slug: ENVIRONMENTq
+stack: '( c-addr u -- false | i * x true )'
+description: "C-addr is the address of a character string and u is the string's character count."

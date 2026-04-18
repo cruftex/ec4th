@@ -1,3 +1,5 @@
 word: "?do"
 wordset: core-ext
 f12-slug: QuestionDO
+stack: '( C: -- do-sys )'
+description: 'Put do-sys onto the control-flow stack.'

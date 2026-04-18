@@ -1,3 +1,5 @@
 word: "cell+"
 wordset: core
 f12-slug: CellPlus
+stack: '( a-addr1 -- a-addr2 )'
+description: 'Add the size in address units of a cell to a-addr1, giving a-addr2.'
