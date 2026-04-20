@@ -1,5 +1,5 @@
 word: "("
 wordset: core
-f12-slug: Paren
+f12-slug: p
 stack: '( "ccc<paren>" -- )'
 description: 'Parse ccc delimited by ) The number of characters in ccc may be zero to the number of characters in the parse area.'

@@ -1,5 +1,5 @@
 word: "0<"
 wordset: core
-f12-slug: ZeroLess
+f12-slug: Zeroless
 stack: '( n -- flag )'
 description: 'Flag is true if and only if n is less than zero.'

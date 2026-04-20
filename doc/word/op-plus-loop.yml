@@ -1,5 +1,5 @@
 word: "+loop"
 wordset: core
-f12-slug: PlusLoop
+f12-slug: PlusLOOP
 stack: '( C: do-sys -- )'
 description: 'Compile the loop step by n and branch back to the matching do.'

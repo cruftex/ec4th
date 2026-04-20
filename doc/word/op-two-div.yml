@@ -1,5 +1,5 @@
 word: "2/"
 wordset: core
-f12-slug: TwoSlash
+f12-slug: TwoDiv
 stack: '( x1 -- x2 )'
 description: 'X2 is the result of shifting x1 one bit toward the least-significant bit, leaving the most-significant bit unchanged.'

@@ -34,6 +34,23 @@ WORDSET_DIR = {
     "string-ext": "string",
 }
 
+
+def page_from_metadata(raw: dict) -> tuple[str, str] | None:
+    f12_url = raw.get("f12-url")
+    if f12_url:
+        marker = "/standard/"
+        if marker in str(f12_url):
+            suffix = str(f12_url).split(marker, 1)[1].strip("/")
+            parts = suffix.split("/", 1)
+            if len(parts) == 2 and parts[0] and parts[1]:
+                return parts[0], parts[1]
+
+    wordset = raw.get("wordset")
+    f12_slug = raw.get("f12-slug")
+    if wordset not in WORDSET_DIR or f12_slug is None:
+        return None
+    return WORDSET_DIR[wordset], str(f12_slug)
+
 F12_OVERRIDES = {
     "k-f1.yml": "K-FOne",
     "k-f2.yml": "K-FTwo",
@@ -450,14 +467,11 @@ def main() -> None:
 
     for path in sorted(WORD_DIR.glob("*.yml")):
         raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
-        wordset = raw.get("wordset")
-        f12_slug = raw.get("f12-slug")
-        if wordset not in WORDSET_DIR or f12_slug is None:
+        page_ref = page_from_metadata(raw)
+        if page_ref is None:
             continue
-
-        f12_slug = str(f12_slug)
+        std_dir, f12_slug = page_ref
         lookup_name = F12_OVERRIDES.get(path.name, f12_slug)
-        std_dir = WORDSET_DIR[wordset]
         page = page_index[std_dir].get(normalize_name(lookup_name))
         if page is None:
             missing_pages.append(f"{path.name}: {std_dir}/{f12_slug}")
@@ -467,7 +481,9 @@ def main() -> None:
         fragment = extract_testing_fragment(page_text)
         lines = normalize_test_lines(fragment) if fragment is not None else []
         word = str(raw.get("word") or path.stem)
-        rendered = render_test_file(path.stem, word, str(wordset), f"{std_dir}/{page.name}", lines)
+        rendered = render_test_file(
+            path.stem, word, str(raw.get("wordset")), f"{std_dir}/{page.name}", lines
+        )
         target = TEST_DIR / f"{path.stem}.fs"
         before = target.read_text(encoding="utf-8") if target.exists() else None
         write_text(target, rendered)

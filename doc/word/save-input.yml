@@ -1,4 +1,4 @@
 wordset: core-ext
-f12-slug: SAVEINPUT
+f12-slug: SAVE-INPUT
 stack: '( -- xn ... x1 n )'
 description: 'X1 through xn describe the current state of the input source specification for later use by RESTORE-INPUT.'

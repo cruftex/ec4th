@@ -1,4 +1,4 @@
 wordset: core-ext
-f12-slug: TRUE
+f12-slug: "TRUE"
 stack: '( -- true )'
 description: 'Return a true flag, a single-cell value with all bits set.'

@@ -1,5 +1,5 @@
 word: "d0<"
 wordset: double
-f12-slug: DZeroLess
+f12-slug: DZeroless
 stack: '( d -- flag )'
 description: 'Flag is true if and only if d is less than zero.'

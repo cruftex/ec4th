@@ -1,5 +1,5 @@
-word: '\\'
+word: '\'
 wordset: core-ext
-f12-slug: Backslash
+f12-slug: bs
 stack: '( "ccc<eol>" -- )'
 description: 'Parse and discard the remainder of the parse area.'

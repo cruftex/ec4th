@@ -1,5 +1,5 @@
 word: "#>"
 wordset: core
-f12-slug: numEnd
+f12-slug: num-end
 stack: '( xd -- c-addr u )'
 description: 'Drop xd.'

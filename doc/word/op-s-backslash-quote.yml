@@ -1,5 +1,6 @@
-word: 's\\"'
+word: 's\"'
 wordset: core-ext
-f12-slug: BackslashQuote
+f12-slug: Seq
+f12-url: https://forth-standard.org/standard/core/Seq
 stack: '( "ccc<quote>" -- )'
 description: 'Parse ccc delimited by " (double-quote), using the translation rules below.'

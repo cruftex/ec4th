@@ -1,5 +1,5 @@
 word: "u>"
 wordset: core-ext
-f12-slug: UGreater
+f12-slug: Umore
 stack: '( u1 u2 -- flag )'
 description: 'Flag is true if and only if u1 is greater than u2.'

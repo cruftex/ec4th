@@ -71,9 +71,17 @@ Supported fields today are:
 
 - `word`
 - `f12-slug`
+- `f12-url`
 - `wordset`
 - `description`
 - `stack`
+
+`f12-slug` is the standard page name under the normal path derived from
+`wordset`.
+
+`f12-url` is an optional override for exceptional cases where the standard page
+URL should be used literally instead of deriving it from `wordset` and
+`f12-slug`.
 
 ## Target and profile discovery
 

@@ -1,4 +1,4 @@
 wordset: core
-f12-slug: TwoDup
+f12-slug: TwoDUP
 stack: '( x1 x2 -- x1 x2 x1 x2 )'
 description: 'Duplicate cell pair x1 x2.'

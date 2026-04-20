@@ -57,6 +57,7 @@ class WordDoc:
     slug: str
     word: str
     f12_slug: Optional[str] = None
+    f12_url: Optional[str] = None
     wordset: Optional[str] = None
     also_wordsets: Optional[List[str]] = None
     description: Optional[str] = None
@@ -110,6 +111,7 @@ def load_word_docs(word_dir: Path) -> tuple[Dict[str, WordDoc], Dict[str, WordDo
             slug=slug,
             word=word,
             f12_slug=raw.get("f12-slug"),
+            f12_url=raw.get("f12-url"),
             wordset=raw.get("wordset"),
             also_wordsets=list(raw.get("also-wordsets") or []),
             description=raw.get("description"),
@@ -377,10 +379,17 @@ def standard_wordset_path(wordset: str) -> str:
     return wordset
 
 
-def standard_url(wordset: Optional[str], f12_slug: Optional[str]) -> Optional[str]:
-    if not wordset or not f12_slug:
+def standard_url(doc: Optional[WordDoc]) -> Optional[str]:
+    if doc is None:
         return None
-    return f"https://forth-standard.org/standard/{standard_wordset_path(wordset)}/{f12_slug}"
+    if doc.f12_url:
+        return doc.f12_url
+    if not doc.wordset or not doc.f12_slug:
+        return None
+    return (
+        f"https://forth-standard.org/standard/"
+        f"{standard_wordset_path(doc.wordset)}/{doc.f12_slug}"
+    )
 
 
 SEE_REF_RE = re.compile(r"\{forth:word\}`([^`]+)`")
@@ -501,8 +510,7 @@ def render_profile_word_page(pw: ProfileWord, see_also: Optional[List[str]] = No
     stack = pw.doc.stack if pw.doc is not None else None
     return_stack = pw.doc.return_stack if pw.doc is not None else None
     wordsets = iter_wordsets(pw.doc) if pw.doc is not None else []
-    f12_slug = pw.doc.f12_slug if pw.doc is not None else None
-    std_url = standard_url(wordsets[0] if wordsets else None, f12_slug)
+    std_url = standard_url(pw.doc)
 
     parts: List[str] = []
     parts.append("---")
@@ -571,8 +579,7 @@ def render_global_word_page(
     stack = doc.stack if doc is not None else None
     return_stack = doc.return_stack if doc is not None else None
     wordsets = iter_wordsets(doc) if doc is not None else []
-    f12_slug = doc.f12_slug if doc is not None else None
-    std_url = standard_url(wordsets[0] if wordsets else None, f12_slug)
+    std_url = standard_url(doc)
 
     parts: List[str] = []
     parts.append("---")

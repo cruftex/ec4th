@@ -1,4 +1,4 @@
 wordset: facility-ext
-f12-slug: K-F2
+f12-slug: K-FTwo
 stack: '( -- u )'
 description: 'Returns the code for the F2 key.'

@@ -1,5 +1,5 @@
 word: "um*"
 wordset: core
-f12-slug: UMStar
+f12-slug: UMTimes
 stack: '( u1 u2 -- ud )'
 description: 'Multiply u1 by u2, giving the unsigned double-cell product ud.'

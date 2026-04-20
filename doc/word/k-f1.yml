@@ -1,4 +1,4 @@
 wordset: facility-ext
-f12-slug: K-F1
+f12-slug: K-FOne
 stack: '( -- u )'
 description: 'Returns the code for the F1 key.'

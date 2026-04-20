@@ -1,5 +1,5 @@
 word: "d<"
 wordset: double
-f12-slug: DLess
+f12-slug: Dless
 stack: '( d1 d2 -- flag )'
 description: 'Flag is true if and only if d1 is less than d2.'

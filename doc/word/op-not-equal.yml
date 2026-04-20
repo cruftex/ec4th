@@ -1,5 +1,5 @@
 word: "<>"
 wordset: core-ext
-f12-slug: NotEqual
+f12-slug: ne
 stack: '( x1 x2 -- flag )'
 description: 'Flag is true if and only if x1 is not bit-for-bit the same as x2.'

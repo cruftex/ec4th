@@ -1,4 +1,4 @@
 wordset: core-ext
-f12-slug: RESTOREINPUT
+f12-slug: RESTORE-INPUT
 stack: '( xn ... x1 n -- flag )'
 description: 'Attempt to restore the input source specification to the state described by x1 through xn.'

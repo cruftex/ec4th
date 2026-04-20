@@ -1,5 +1,5 @@
 word: ".("
 wordset: core-ext
-f12-slug: DotParen
+f12-slug: Dotp
 stack: '( "ccc<paren>" -- )'
 description: 'Parse and display ccc delimited by ) (right parenthesis).'

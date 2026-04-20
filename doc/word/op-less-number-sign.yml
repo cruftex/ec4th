@@ -1,5 +1,5 @@
 word: "<#"
 wordset: core
-f12-slug: lessNum
+f12-slug: num-start
 stack: '( -- )'
 description: 'Initialize the pictured numeric output conversion process.'

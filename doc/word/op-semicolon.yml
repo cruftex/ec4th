@@ -1,5 +1,5 @@
 word: ";"
 wordset: core
-f12-slug: Semicolon
+f12-slug: Semi
 stack: '( C: colon-sys -- )'
 description: 'End the current definition.'

@@ -1,5 +1,5 @@
 word: "d."
 wordset: double
-f12-slug: DDot
+f12-slug: Dd
 stack: '( d -- )'
 description: 'Print d in free field format.'
