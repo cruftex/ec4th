@@ -334,13 +334,63 @@ def md_code(text: str) -> str:
 
 
 def md_display_text(text: str) -> str:
-    if "\\" in text:
+    if "\\" in text or "[" in text or "]" in text:
         return md_code(text)
     return text
 
 
+def md_link_text(text: str) -> str:
+    return (
+        text.replace("&", "&amp;")
+        .replace("\\", "&#92;")
+        .replace("[", "&#91;")
+        .replace("]", "&#93;")
+    )
+
+
 def md_word_link(label: str, target: str) -> str:
-    return f"[{md_display_text(label)}]({target})"
+    return f"[{md_link_text(label)}]({target})"
+
+
+def wordset_doc_link(wordset: str) -> str:
+    return f"{{doc}}`{wordset} </wordset/{wordset}>`"
+
+
+def profile_wordset_doc_link(target: str, profile: str, wordset: str) -> str:
+    return f"{{doc}}`{wordset} </target/{target}/profile/{profile}/wordset/{wordset}>`"
+
+
+def profile_word_doc_target(target: str, profile: str, slug: str) -> str:
+    return f"/target/{target}/profile/{profile}/word/{slug}"
+
+
+PROFILE_DOC_REF_RE = re.compile(r"\{doc\}`(?P<label>.*?) </word/(?P<slug>[^>]+)>`")
+PROFILE_MD_REF_RE = re.compile(r"\[(?P<label>.+?)\]\(/word/(?P<slug>[^)]+)\.md\)")
+
+
+def localize_profile_ref(
+    ref: str,
+    target: str,
+    profile: str,
+    available_slugs: set[str],
+) -> str:
+    def replace_doc(match: re.Match[str]) -> str:
+        slug = match.group("slug")
+        if slug not in available_slugs:
+            return match.group(0)
+        label = match.group("label")
+        return f"{{doc}}`{label} <{profile_word_doc_target(target, profile, slug)}>`"
+
+    ref = PROFILE_DOC_REF_RE.sub(replace_doc, ref)
+
+    def replace_md(match: re.Match[str]) -> str:
+        slug = match.group("slug")
+        if slug not in available_slugs:
+            return match.group(0)
+        label = match.group("label")
+        return f"[{label}]({profile_word_doc_target(target, profile, slug)}.md)"
+
+    return PROFILE_MD_REF_RE.sub(replace_md, ref)
 
 
 def yaml_quote(text: str) -> str:
@@ -525,13 +575,18 @@ def render_word_directive(
     return "\n".join(lines)
 
 
-def render_profile_word_page(pw: ProfileWord, see_also: Optional[List[str]] = None) -> str:
+def render_profile_word_page(
+    pw: ProfileWord,
+    see_also: Optional[List[str]] = None,
+    profile_slugs: Optional[set[str]] = None,
+) -> str:
     title = pw.doc.word if pw.doc is not None else pw.word
     desc = pw.doc.description if pw.doc is not None else None
     stack = pw.doc.stack if pw.doc is not None else None
     return_stack = pw.doc.return_stack if pw.doc is not None else None
     wordsets = iter_wordsets(pw.doc) if pw.doc is not None else []
     std_url = standard_url(pw.doc)
+    profile_slugs = profile_slugs or set()
 
     parts: List[str] = []
     parts.append("---")
@@ -558,19 +613,24 @@ def render_profile_word_page(pw: ProfileWord, see_also: Optional[List[str]] = No
     if see_also:
         parts.append("## See also")
         parts.append("")
-        parts.append(" ".join(see_also))
+        localized = [
+            localize_profile_ref(ref, pw.target, pw.profile, profile_slugs)
+            for ref in see_also
+        ]
+        parts.append(" ".join(localized))
         parts.append("")
 
     parts.append(f"**Target:** `{pw.target}`  ")
     parts.append(f"**Profile:** `{pw.profile}`  ")
     parts.append(f"**Defined in:** `{pw.source_path}:{pw.line}`  ")
     parts.append(f"**Source:** <{source_url(pw.source_path, pw.line)}>  ")
-    parts.append(f"**Generic:** {{doc}}`/word/{pw.slug}`")
     if wordsets:
-        parts.append(f"**Wordset:** `{wordsets[0]}`  ")
+        parts.append(
+            f"**Wordset:** {profile_wordset_doc_link(pw.target, pw.profile, wordsets[0])}  "
+        )
     if len(wordsets) > 1:
         parts.append(
-            f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
+            f"**Also in:** {' '.join(profile_wordset_doc_link(pw.target, pw.profile, wordset) for wordset in wordsets[1:])}  "
         )
     if std_url:
         parts.append(f"**Standard:** <{std_url}>")
@@ -631,10 +691,10 @@ def render_global_word_page(
         parts.append("")
 
     if wordsets:
-        parts.append(f"**Wordset:** `{wordsets[0]}`  ")
+        parts.append(f"**Wordset:** {wordset_doc_link(wordsets[0])}  ")
     if len(wordsets) > 1:
         parts.append(
-            f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
+            f"**Also in:** {' '.join(wordset_doc_link(wordset) for wordset in wordsets[1:])}  "
         )
     if std_url:
         parts.append(f"**Standard:** <{std_url}>")
@@ -665,6 +725,16 @@ def render_profile_index(
     words: List[ProfileWord],
     docs_by_slug: Dict[str, WordDoc],
 ) -> str:
+    words_by_wordset: Dict[str, List[ProfileWord]] = {}
+    for pw in words:
+        for wordset in iter_wordsets(pw.doc):
+            words_by_wordset.setdefault(wordset, []).append(pw)
+
+    documented_by_wordset: Dict[str, List[WordDoc]] = {}
+    for doc in docs_by_slug.values():
+        for wordset in iter_wordsets(doc):
+            documented_by_wordset.setdefault(wordset, []).append(doc)
+
     parts: List[str] = []
     parts.append(f"# Profile {profile}")
     parts.append("")
@@ -681,23 +751,15 @@ def render_profile_index(
     parts.append(":maxdepth: 1")
     parts.append("")
     parts.append("word-index")
+    for wordset in sorted(documented_by_wordset):
+        parts.append(f"wordset/{wordset}")
     parts.append("```")
     parts.append("")
-    words_by_wordset: Dict[str, List[ProfileWord]] = {}
-    for pw in words:
-        for wordset in iter_wordsets(pw.doc):
-            words_by_wordset.setdefault(wordset, []).append(pw)
-
-    documented_by_wordset: Dict[str, List[WordDoc]] = {}
-    for doc in docs_by_slug.values():
-        for wordset in iter_wordsets(doc):
-            documented_by_wordset.setdefault(wordset, []).append(doc)
-
     parts.append("## Implemented Words")
     parts.append("")
 
     for wordset in sorted(documented_by_wordset):
-        parts.append(f"### {wordset}")
+        parts.append(f"### {profile_wordset_doc_link(target, profile, wordset)}")
         parts.append("")
 
         implemented = words_by_wordset.get(wordset, [])
@@ -753,6 +815,86 @@ def render_profile_word_index(
     return "\n".join(parts)
 
 
+def render_wordset_page(
+    wordset: str,
+    docs: List[WordDoc],
+    occurrences: List[ProfileWord],
+) -> str:
+    parts: List[str] = []
+    parts.append(f"# Wordset {wordset}")
+    parts.append("")
+    parts.append(f"Documented words: {len(docs)}")
+    parts.append("")
+
+    if occurrences:
+        profiles: dict[tuple[str, str], int] = {}
+        for pw in occurrences:
+            profiles[(pw.target, pw.profile)] = profiles.get((pw.target, pw.profile), 0) + 1
+        parts.append("## Implemented in Targets")
+        parts.append("")
+        for (target, profile), count in sorted(profiles.items()):
+            parts.append(
+                f"- {{doc}}`{target}/{profile} </target/{target}/profile/{profile}/index>`: {count} words"
+            )
+        parts.append("")
+
+    parts.append("## Words")
+    parts.append("")
+    if docs:
+        parts.append(" ".join(md_word_link(doc.word, f"/word/{doc.slug}.md") for doc in docs))
+    else:
+        parts.append("None")
+    parts.append("")
+    return "\n".join(parts)
+
+
+def render_profile_wordset_page(
+    target: str,
+    profile: str,
+    wordset: str,
+    implemented: List[ProfileWord],
+    documented: List[WordDoc],
+) -> str:
+    implemented = sorted(implemented, key=lambda x: (display_word(x.doc, x.word).lower(), display_word(x.doc, x.word), x.slug))
+    implemented_slugs = {pw.slug for pw in implemented}
+    missing = [
+        doc for doc in documented if doc.slug not in implemented_slugs
+    ]
+
+    parts: List[str] = []
+    parts.append(f"# Wordset {wordset}")
+    parts.append("")
+    parts.append(f"Target: `{target}`  ")
+    parts.append(f"Profile: `{profile}`")
+    parts.append("")
+    parts.append(f"Documented words: {len(documented)}  ")
+    parts.append(f"Implemented words: {len(implemented)}  ")
+    parts.append(f"Missing words: {len(missing)}")
+    parts.append("")
+    parts.append("## Implemented Words")
+    parts.append("")
+    if implemented:
+        parts.append(
+            " ".join(
+                md_word_link(display_word(pw.doc, pw.word), f"../word/{pw.slug}.md")
+                for pw in implemented
+            )
+        )
+    else:
+        parts.append("None")
+    parts.append("")
+    parts.append("## Missing Words")
+    parts.append("")
+    if missing:
+        parts.append(
+            " ".join(md_word_link(doc.word, f"/word/{doc.slug}.md") for doc in missing)
+        )
+    else:
+        parts.append("None")
+    parts.append("")
+    return "\n".join(parts)
+
+
 def render_target_index(target: str, profiles: List[str]) -> str:
     parts: List[str] = []
     parts.append(f"# Target {target}")
@@ -772,7 +914,7 @@ def render_target_index(target: str, profiles: List[str]) -> str:
     return "\n".join(parts)
 
 
-def render_root_index(targets: List[str], global_slugs: List[str]) -> str:
+def render_root_index(targets: List[str], wordsets: List[str]) -> str:
     parts: List[str] = []
     parts.append("# ec4th Documentation")
     parts.append("")
@@ -787,6 +929,19 @@ def render_root_index(targets: List[str], global_slugs: List[str]) -> str:
     parts.append("")
     for target in targets:
         parts.append(f"target/{target}/index")
+    parts.append("```")
+    parts.append("")
+    parts.append("## Wordsets")
+    parts.append("")
+    for wordset in wordsets:
+        parts.append(f"- {wordset_doc_link(wordset)}")
+    parts.append("")
+    parts.append("```{toctree}")
+    parts.append(":hidden:")
+    parts.append(":maxdepth: 1")
+    parts.append("")
+    for wordset in wordsets:
+        parts.append(f"wordset/{wordset}")
     parts.append("```")
     return "\n".join(parts)
 
@@ -811,12 +966,18 @@ def main() -> int:
 
     profile_words_map: Dict[tuple[str, str], List[ProfileWord]] = {}
     global_words: Dict[str, List[ProfileWord]] = {}
+    documented_by_wordset: Dict[str, List[WordDoc]] = {}
     wanted_files: set[Path] = set()
+
+    for doc in docs_by_slug.values():
+        for wordset in iter_wordsets(doc):
+            documented_by_wordset.setdefault(wordset, []).append(doc)
 
     for variant in variants:
         entries = parse_tags_file(variant.tags_file)
         pwords = build_profile_words(variant, entries, docs_by_slug, docs_by_word)
         profile_words_map[(variant.target, variant.profile)] = pwords
+        profile_slugs = {pw.slug for pw in pwords}
 
         for pw in pwords:
             global_words.setdefault(pw.slug, []).append(pw)
@@ -829,10 +990,36 @@ def main() -> int:
         wanted_files.add(word_index)
         write_text(word_index, render_profile_word_index(variant.target, variant.profile, pwords))
 
+        words_by_wordset: Dict[str, List[ProfileWord]] = {}
+        for pw in pwords:
+            for wordset in iter_wordsets(pw.doc):
+                words_by_wordset.setdefault(wordset, []).append(pw)
+
+        for wordset, documented in documented_by_wordset.items():
+            wordset_path = profile_dir / "wordset" / f"{wordset}.md"
+            wanted_files.add(wordset_path)
+            write_text(
+                wordset_path,
+                render_profile_wordset_page(
+                    variant.target,
+                    variant.profile,
+                    wordset,
+                    words_by_wordset.get(wordset, []),
+                    sorted(documented, key=lambda x: (x.word.lower(), x.word, x.slug)),
+                ),
+            )
+
         for pw in pwords:
             word_path = profile_dir / "word" / f"{pw.slug}.md"
             wanted_files.add(word_path)
-            write_text(word_path, render_profile_word_page(pw, see_groups.get(pw.slug)))
+            write_text(
+                word_path,
+                render_profile_word_page(
+                    pw,
+                    see_groups.get(pw.slug),
+                    profile_slugs,
+                ),
+            )
 
     for target in sorted({variant.target for variant in variants}):
         target_dir = args.out_dir / "target" / target
@@ -849,11 +1036,29 @@ def main() -> int:
         wanted_files.add(word_path)
         write_text(word_path, render_global_word_page(slug, occurrences, doc, see_groups.get(slug)))
 
+    for wordset in sorted(documented_by_wordset):
+        docs = sorted(
+            documented_by_wordset[wordset],
+            key=lambda x: (x.word.lower(), x.word, x.slug),
+        )
+        occurrences = [
+            pw
+            for pw_list in profile_words_map.values()
+            for pw in pw_list
+            if wordset in iter_wordsets(pw.doc)
+        ]
+        wordset_path = args.out_dir / "wordset" / f"{wordset}.md"
+        wanted_files.add(wordset_path)
+        write_text(wordset_path, render_wordset_page(wordset, docs, occurrences))
+
     root_index = args.out_dir / "index.md"
     wanted_files.add(root_index)
     write_text(
         root_index,
-        render_root_index(sorted({variant.target for variant in variants}), sorted(all_slugs)),
+        render_root_index(
+            sorted({variant.target for variant in variants}),
+            sorted(documented_by_wordset),
+        ),
     )
     prune_stale_files(args.out_dir, wanted_files)
 

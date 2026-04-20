@@ -39,8 +39,10 @@ The main inputs are:
 The main outputs are:
 
 - `output/doc/index.md`
+- `output/doc/wordset/<wordset>.md`
 - `output/doc/target/<target>/index.md`
 - `output/doc/target/<target>/profile/<profile>/index.md`
+- `output/doc/target/<target>/profile/<profile>/wordset/<wordset>.md`
 - `output/doc/target/<target>/profile/<profile>/word/<slug>.md`
 - `output/doc/word/<slug>.md`
 - `output/doc-html/`
@@ -115,10 +117,14 @@ This produces:
 2. Parse each discovered tags file.
 3. Resolve a slug for every word.
 4. Generate per-profile pages under each target.
-5. Generate global word pages and the root index.
+5. Generate per-profile wordset overview pages.
+6. Generate global word pages, global wordset pages, and the root index.
 
 Resolution rules:
 
+- target/profile documentation should be self-contained
+- when a target/profile page links to a word or wordset that exists in the same target/profile, it should link to that target/profile page
+- target/profile pages may link to global pages only when there is no corresponding target/profile destination, for example for missing words
 - profile pages first resolve within the same target/profile, then global pages
 - target pages are for target-level hand-written content such as hardware notes and profile overviews
 - global pages only resolve against global entries
