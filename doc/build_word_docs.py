@@ -62,6 +62,7 @@ class WordDoc:
     description: Optional[str] = None
     stack: Optional[str] = None
     return_stack: Optional[str] = None
+    see: Optional[List[str]] = None
     source_file: Optional[Path] = None
 
 
@@ -114,6 +115,7 @@ def load_word_docs(word_dir: Path) -> tuple[Dict[str, WordDoc], Dict[str, WordDo
             description=raw.get("description"),
             stack=raw.get("stack"),
             return_stack=raw.get("return-stack"),
+            see=list(raw.get("see") or []),
             source_file=path,
         )
 
@@ -381,6 +383,103 @@ def standard_url(wordset: Optional[str], f12_slug: Optional[str]) -> Optional[st
     return f"https://forth-standard.org/standard/{standard_wordset_path(wordset)}/{f12_slug}"
 
 
+SEE_REF_RE = re.compile(r"\{forth:word\}`([^`]+)`")
+
+
+def extract_ref_name(ref: str) -> Optional[str]:
+    m = SEE_REF_RE.search(ref)
+    if m:
+        return m.group(1).strip()
+    cleaned = ref.strip().strip("`").strip()
+    return cleaned or None
+
+
+def render_see_ref(
+    ref: str,
+    docs_by_word: Dict[str, WordDoc],
+    docs_by_slug: Dict[str, WordDoc],
+) -> str:
+    name = extract_ref_name(ref)
+    if not name:
+        return ref
+    target_doc = docs_by_word.get(normalize_word_key(name))
+    if target_doc is not None:
+        return f"{{doc}}`{target_doc.word} </word/{target_doc.slug}>`"
+
+    target_slug = resolve_slug(name, docs_by_word)
+    if target_slug in docs_by_slug or SAFE_WORD_RE.match(target_slug) or target_slug.startswith("op-"):
+        return f"{{doc}}`{name} </word/{target_slug}>`"
+    return ref
+
+
+def compute_see_groups(
+    docs_by_slug: Dict[str, WordDoc],
+    docs_by_word: Dict[str, WordDoc],
+) -> Dict[str, List[str]]:
+    parent = {slug: slug for slug in docs_by_slug}
+
+    def find(x: str) -> str:
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    def union(a: str, b: str) -> None:
+        ra, rb = find(a), find(b)
+        if ra != rb:
+            parent[ra] = rb
+
+    parsed: Dict[str, List[tuple[Optional[str], str]]] = {}
+    for slug, doc in docs_by_slug.items():
+        entries: List[tuple[Optional[str], str]] = []
+        for ref in doc.see or []:
+            name = extract_ref_name(ref)
+            target_slug: Optional[str] = None
+            rendered_ref = render_see_ref(ref, docs_by_word, docs_by_slug)
+            if name:
+                target_doc = docs_by_word.get(normalize_word_key(name))
+                if target_doc is not None:
+                    target_slug = target_doc.slug
+                    union(slug, target_slug)
+            entries.append((target_slug, rendered_ref))
+        parsed[slug] = entries
+
+    clusters: Dict[str, List[str]] = {}
+    for slug in docs_by_slug:
+        clusters.setdefault(find(slug), []).append(slug)
+
+    result: Dict[str, List[str]] = {}
+    for members in clusters.values():
+        members_set = set(members)
+
+        external_refs: List[str] = []
+        seen_external: set[str] = set()
+        for member in members:
+            for target_slug, ref_str in parsed[member]:
+                if target_slug is None or target_slug not in members_set:
+                    if ref_str not in seen_external:
+                        seen_external.add(ref_str)
+                        external_refs.append(ref_str)
+
+        if len(members) == 1 and not external_refs:
+            result[members[0]] = []
+            continue
+
+        for member in members:
+            member_refs: List[str] = []
+            others_sorted = sorted(
+                (s for s in members if s != member),
+                key=lambda s: docs_by_slug[s].word.lower(),
+            )
+            for other_slug in others_sorted:
+                other_word = docs_by_slug[other_slug].word
+                member_refs.append(f"{{doc}}`{other_word} </word/{other_slug}>`")
+            member_refs.extend(external_refs)
+            result[member] = member_refs
+
+    return result
+
+
 def render_word_directive(
     slug: str,
     word: str,
@@ -396,7 +495,7 @@ def render_word_directive(
     return "\n".join(lines)
 
 
-def render_profile_word_page(pw: ProfileWord) -> str:
+def render_profile_word_page(pw: ProfileWord, see_also: Optional[List[str]] = None) -> str:
     title = pw.doc.word if pw.doc is not None else pw.word
     desc = pw.doc.description if pw.doc is not None else None
     stack = pw.doc.stack if pw.doc is not None else None
@@ -414,19 +513,6 @@ def render_profile_word_page(pw: ProfileWord) -> str:
     parts.append("")
     parts.append(f"# {title}")
     parts.append("")
-    parts.append(f"**Target:** `{pw.target}`  ")
-    parts.append(f"**Profile:** `{pw.profile}`  ")
-    parts.append(f"**Defined in:** `{pw.source_path}:{pw.line}`  ")
-    parts.append(f"**Source:** <{source_url(pw.source_path, pw.line)}>")
-    if wordsets:
-        parts.append(f"**Wordset:** `{wordsets[0]}`  ")
-    if len(wordsets) > 1:
-        parts.append(
-            f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
-        )
-    if std_url:
-        parts.append(f"**Standard:** <{std_url}>")
-    parts.append("")
 
     if stack:
         parts.append(f"`{md_escape_inline(stack)}`")
@@ -440,6 +526,27 @@ def render_profile_word_page(pw: ProfileWord) -> str:
         parts.append(desc)
         parts.append("")
 
+    if see_also:
+        parts.append("## See also")
+        parts.append("")
+        parts.append(" ".join(see_also))
+        parts.append("")
+
+    parts.append(f"**Target:** `{pw.target}`  ")
+    parts.append(f"**Profile:** `{pw.profile}`  ")
+    parts.append(f"**Defined in:** `{pw.source_path}:{pw.line}`  ")
+    parts.append(f"**Source:** <{source_url(pw.source_path, pw.line)}>  ")
+    parts.append(f"**Generic:** {{doc}}`/word/{pw.slug}`")
+    if wordsets:
+        parts.append(f"**Wordset:** `{wordsets[0]}`  ")
+    if len(wordsets) > 1:
+        parts.append(
+            f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
+        )
+    if std_url:
+        parts.append(f"**Standard:** <{std_url}>")
+    parts.append("")
+
     parts.append("## Entry")
     parts.append("")
     parts.append(f"- slug: `{pw.slug}`")
@@ -448,8 +555,18 @@ def render_profile_word_page(pw: ProfileWord) -> str:
     return "\n".join(parts)
 
 
-def render_global_word_page(slug: str, occurrences: List[ProfileWord], doc: Optional[WordDoc]) -> str:
-    display_word = doc.word if doc is not None else occurrences[0].word
+def render_global_word_page(
+    slug: str,
+    occurrences: List[ProfileWord],
+    doc: Optional[WordDoc],
+    see_also: Optional[List[str]] = None,
+) -> str:
+    if doc is not None:
+        display_word = doc.word
+    elif occurrences:
+        display_word = occurrences[0].word
+    else:
+        display_word = slug
     desc = doc.description if doc is not None else None
     stack = doc.stack if doc is not None else None
     return_stack = doc.return_stack if doc is not None else None
@@ -467,17 +584,6 @@ def render_global_word_page(slug: str, occurrences: List[ProfileWord], doc: Opti
     parts.append(f"# {display_word}")
     parts.append("")
 
-    if wordsets:
-        parts.append(f"**Wordset:** `{wordsets[0]}`  ")
-    if len(wordsets) > 1:
-        parts.append(
-            f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
-        )
-    if std_url:
-        parts.append(f"**Standard:** <{std_url}>")
-    if wordsets or std_url:
-        parts.append("")
-
     if stack:
         parts.append(f"`{md_escape_inline(stack)}`")
         parts.append("")
@@ -490,17 +596,37 @@ def render_global_word_page(slug: str, occurrences: List[ProfileWord], doc: Opti
         parts.append(desc)
         parts.append("")
 
+    if see_also:
+        parts.append("## See also")
+        parts.append("")
+        parts.append(" ".join(see_also))
+        parts.append("")
+
+    if wordsets:
+        parts.append(f"**Wordset:** `{wordsets[0]}`  ")
+    if len(wordsets) > 1:
+        parts.append(
+            f"**Also in:** {' '.join(f'`{wordset}`' for wordset in wordsets[1:])}  "
+        )
+    if std_url:
+        parts.append(f"**Standard:** <{std_url}>")
+    if wordsets or std_url:
+        parts.append("")
+
     parts.append("## Available in Targets")
     parts.append("")
-    seen: set[tuple[str, str]] = set()
-    for pw in sorted(occurrences, key=lambda x: (x.target, x.profile)):
-        key = (pw.target, pw.profile)
-        if key in seen:
-            continue
-        seen.add(key)
-        parts.append(
-            f"- {{doc}}`{pw.target}/{pw.profile} </target/{pw.target}/profile/{pw.profile}/word/{pw.slug}>`"
-        )
+    if not occurrences:
+        parts.append("Not implemented in any target.")
+    else:
+        seen: set[tuple[str, str]] = set()
+        for pw in sorted(occurrences, key=lambda x: (x.target, x.profile)):
+            key = (pw.target, pw.profile)
+            if key in seen:
+                continue
+            seen.add(key)
+            parts.append(
+                f"- {{doc}}`{pw.target}/{pw.profile} </target/{pw.target}/profile/{pw.profile}/word/{pw.slug}>`"
+            )
 
     return "\n".join(parts)
 
@@ -564,12 +690,14 @@ def render_profile_index(
         parts.append("#### Missing Words")
         parts.append("")
         missing = [
-            doc.word
+            doc
             for doc in sorted(documented_by_wordset[wordset], key=lambda x: (x.word.lower(), x.word, x.slug))
             if doc.slug not in implemented_slugs
         ]
         if missing:
-            parts.append(" ".join(f"`{word}`" for word in missing))
+            parts.append(
+                " ".join(f"[{doc.word}](/word/{doc.slug}.md)" for doc in missing)
+            )
         else:
             parts.append("None")
         parts.append("")
@@ -645,6 +773,7 @@ def main() -> int:
     args = parser.parse_args()
 
     docs_by_slug, docs_by_word = load_word_docs(args.word_dir)
+    see_groups = compute_see_groups(docs_by_slug, docs_by_word)
     variants = discover_variants(args.tags_dir)
 
     if not variants:
@@ -675,7 +804,7 @@ def main() -> int:
         for pw in pwords:
             word_path = profile_dir / "word" / f"{pw.slug}.md"
             wanted_files.add(word_path)
-            write_text(word_path, render_profile_word_page(pw))
+            write_text(word_path, render_profile_word_page(pw, see_groups.get(pw.slug)))
 
     for target in sorted({variant.target for variant in variants}):
         target_dir = args.out_dir / "target" / target
@@ -684,17 +813,19 @@ def main() -> int:
         wanted_files.add(target_index)
         write_text(target_index, render_target_index(target, profiles))
 
-    for slug, occurrences in sorted(global_words.items()):
+    all_slugs: set[str] = set(global_words.keys()) | set(docs_by_slug.keys())
+    for slug in sorted(all_slugs):
         doc = docs_by_slug.get(slug)
+        occurrences = global_words.get(slug, [])
         word_path = args.out_dir / "word" / f"{slug}.md"
         wanted_files.add(word_path)
-        write_text(word_path, render_global_word_page(slug, occurrences, doc))
+        write_text(word_path, render_global_word_page(slug, occurrences, doc, see_groups.get(slug)))
 
     root_index = args.out_dir / "index.md"
     wanted_files.add(root_index)
     write_text(
         root_index,
-        render_root_index(sorted({variant.target for variant in variants}), sorted(global_words.keys())),
+        render_root_index(sorted({variant.target for variant in variants}), sorted(all_slugs)),
     )
     prune_stale_files(args.out_dir, wanted_files)
 

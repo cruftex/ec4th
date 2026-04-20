@@ -98,6 +98,17 @@ class ForthDomain(Domain):
     def objects(self) -> dict[tuple[str | None, str | None, str], dict[str, str | None]]:
         return self.data["objects"]
 
+    def lookup_by_word(
+        self, target: str | None, profile: str | None, word_lower: str
+    ) -> dict[str, str | None] | None:
+        for (t, p, _slug), record in self.objects.items():
+            if t != target or p != profile:
+                continue
+            rec_word = record.get("word")
+            if rec_word and rec_word.lower() == word_lower:
+                return record
+        return None
+
     def register_word(
         self,
         slug: str,
@@ -157,6 +168,16 @@ class ForthDomain(Domain):
             yield (current_target, current_profile, slug)
         yield (None, None, slug)
 
+    def clear_doc(self, docname: str) -> None:
+        stale = [key for key, record in self.objects.items() if record.get("docname") == docname]
+        for key in stale:
+            del self.objects[key]
+
+    def merge_domaindata(self, docnames, otherdata) -> None:
+        for key, record in otherdata.get("objects", {}).items():
+            if record.get("docname") in docnames:
+                self.objects[key] = record
+
     def get_objects(self):
         for (target, profile, slug), obj in self.objects.items():
             if target and profile:
@@ -183,6 +204,14 @@ class ForthDomain(Domain):
             obj = self.objects.get(key)
             if obj is not None:
                 break
+
+        if obj is None:
+            name_lower = target.strip().lower()
+            current_target, current_profile = location_from_docname(fromdocname)
+            if current_target is not None and current_profile is not None:
+                obj = self.lookup_by_word(current_target, current_profile, name_lower)
+            if obj is None:
+                obj = self.lookup_by_word(None, None, name_lower)
 
         if obj is None:
             logger.warning(

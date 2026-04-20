@@ -4,3 +4,11 @@ f12-slug: RFrom
 stack: '( -- x )'
 return-stack: '( R: x -- )'
 description: 'Move x from the return stack to the stack.'
+see:
+  - "{forth:word}`>r`"
+  - "{forth:word}`r@`"
+  - "{forth:word}`i'`"
+  - "{forth:word}`j`"
+  - "{forth:word}`k`"  
+  - "{forth:word}`rp@`"
+  - "{forth:word}`rp!`"
