@@ -329,6 +329,20 @@ def md_escape_inline(text: str) -> str:
     return text.replace("\\", "\\\\").replace("`", "\\`")
 
 
+def md_code(text: str) -> str:
+    return f"`{text.replace('`', '\\`')}`"
+
+
+def md_display_text(text: str) -> str:
+    if "\\" in text:
+        return md_code(text)
+    return text
+
+
+def md_word_link(label: str, target: str) -> str:
+    return f"[{md_display_text(label)}]({target})"
+
+
 def yaml_quote(text: str) -> str:
     escaped = text.replace("\\", "\\\\").replace('"', '\\"')
     return f'"{escaped}"'
@@ -413,10 +427,14 @@ def render_see_ref(
         return ref
     target_doc = docs_by_word.get(normalize_word_key(name))
     if target_doc is not None:
+        if "\\" in target_doc.word:
+            return md_word_link(target_doc.word, f"/word/{target_doc.slug}.md")
         return f"{{doc}}`{target_doc.word} </word/{target_doc.slug}>`"
 
     target_slug = resolve_slug(name, docs_by_word)
     if target_slug in docs_by_slug or SAFE_WORD_RE.match(target_slug) or target_slug.startswith("op-"):
+        if "\\" in name:
+            return md_word_link(name, f"/word/{target_slug}.md")
         return f"{{doc}}`{name} </word/{target_slug}>`"
     return ref
 
@@ -482,7 +500,10 @@ def compute_see_groups(
             )
             for other_slug in others_sorted:
                 other_word = docs_by_slug[other_slug].word
-                member_refs.append(f"{{doc}}`{other_word} </word/{other_slug}>`")
+                if "\\" in other_word:
+                    member_refs.append(md_word_link(other_word, f"/word/{other_slug}.md"))
+                else:
+                    member_refs.append(f"{{doc}}`{other_word} </word/{other_slug}>`")
             member_refs.extend(external_refs)
             result[member] = member_refs
 
@@ -519,7 +540,7 @@ def render_profile_word_page(pw: ProfileWord, see_also: Optional[List[str]] = No
     parts.append("")
     parts.append(render_word_directive(pw.slug, pw.word, pw.target, pw.profile))
     parts.append("")
-    parts.append(f"# {title}")
+    parts.append(f"# {md_display_text(title)}")
     parts.append("")
 
     if stack:
@@ -588,7 +609,7 @@ def render_global_word_page(
     parts.append("")
     parts.append(render_word_directive(slug, display_word))
     parts.append("")
-    parts.append(f"# {display_word}")
+    parts.append(f"# {md_display_text(display_word)}")
     parts.append("")
 
     if stack:
@@ -686,7 +707,7 @@ def render_profile_index(
         parts.append("")
         if implemented:
             entries = [
-                f"[{display_word(pw.doc, pw.word)}](word/{pw.slug}.md)"
+                md_word_link(display_word(pw.doc, pw.word), f"word/{pw.slug}.md")
                 for pw in implemented
             ]
             parts.append(" ".join(entries))
@@ -703,7 +724,7 @@ def render_profile_index(
         ]
         if missing:
             parts.append(
-                " ".join(f"[{doc.word}](/word/{doc.slug}.md)" for doc in missing)
+                " ".join(md_word_link(doc.word, f"/word/{doc.slug}.md") for doc in missing)
             )
         else:
             parts.append("None")
