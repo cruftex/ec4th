@@ -1,4 +1,4 @@
 word: -rot
 wordset: ec4th
 stack: "x1 x2 x3 -- x3 x1 x2"
-description: Reverse rotate the top three stack elements. Non-standard but available in all major Forth systems.
+description: Reverse rotate the top three stack elements. The word `-rot` is not included in ANS Forth and not in Forth 2012 standard. However, it is used throughout the source code and every major system does define it (Gforth, F83, SwiftForth, VFX Forth, iForth, SP-Forth, Win32Forth, bigFORTH, pForth, Mecrisp-Stellaris, 4th, ciforth, Pygmy Forth, FPC Forth, UR/Forth, eForth, amforth, FlashForth, RetroForth, Forth850, JonesForth)
