@@ -352,6 +352,10 @@ def md_word_link(label: str, target: str) -> str:
     return f"[{md_link_text(label)}]({target})"
 
 
+def doc_title_text(text: str) -> str:
+    return md_link_text(text)
+
+
 def wordset_doc_link(wordset: str) -> str:
     return f"{{doc}}`{wordset} </wordset/{wordset}>`"
 
@@ -362,6 +366,30 @@ def profile_wordset_doc_link(target: str, profile: str, wordset: str) -> str:
 
 def profile_word_doc_target(target: str, profile: str, slug: str) -> str:
     return f"/target/{target}/profile/{profile}/word/{slug}"
+
+
+FORTH_2012_WORDSETS = {
+    "core",
+    "core-ext",
+    "double",
+    "double-ext",
+    "exception",
+    "exception-ext",
+    "facility",
+    "facility-ext",
+    "floating",
+    "floating-ext",
+    "memory",
+    "string",
+    "tools",
+    "tools-ext",
+}
+
+
+def split_wordset_groups(wordsets: List[str]) -> tuple[List[str], List[str]]:
+    forth_2012 = [wordset for wordset in wordsets if wordset in FORTH_2012_WORDSETS]
+    ec4th = [wordset for wordset in wordsets if wordset not in FORTH_2012_WORDSETS]
+    return forth_2012, ec4th
 
 
 PROFILE_DOC_REF_RE = re.compile(r"\{doc\}`(?P<label>.*?) </word/(?P<slug>[^>]+)>`")
@@ -745,14 +773,26 @@ def render_profile_index(
     parts.append("## Indexes")
     parts.append("")
     parts.append(f"- {{doc}}`Word Index </target/{target}/profile/{profile}/word-index>`")
+    forth_2012_wordsets, ec4th_wordsets = split_wordset_groups(sorted(documented_by_wordset))
+    if forth_2012_wordsets:
+        parts.append(
+            f"- {{doc}}`Forth 2012 wordsets </target/{target}/profile/{profile}/wordset/forth-2012>`"
+        )
+    if ec4th_wordsets:
+        parts.append(
+            f"- {{doc}}`ec4th wordsets </target/{target}/profile/{profile}/wordset/ec4th>`"
+        )
     parts.append("")
     parts.append("```{toctree}")
     parts.append(":hidden:")
-    parts.append(":maxdepth: 1")
+    parts.append(":maxdepth: 2")
+    parts.append(":titlesonly:")
     parts.append("")
     parts.append("word-index")
-    for wordset in sorted(documented_by_wordset):
-        parts.append(f"wordset/{wordset}")
+    if forth_2012_wordsets:
+        parts.append("wordset/forth-2012")
+    if ec4th_wordsets:
+        parts.append("wordset/ec4th")
     parts.append("```")
     parts.append("")
     parts.append("## Implemented Words")
@@ -810,7 +850,7 @@ def render_profile_word_index(
     parts.append(":maxdepth: 1")
     parts.append("")
     for pw in words:
-        parts.append(f"word/{pw.slug}")
+        parts.append(f"{doc_title_text(display_word(pw.doc, pw.word))} <word/{pw.slug}>")
     parts.append("```")
     return "\n".join(parts)
 
@@ -821,7 +861,7 @@ def render_wordset_page(
     occurrences: List[ProfileWord],
 ) -> str:
     parts: List[str] = []
-    parts.append(f"# Wordset {wordset}")
+    parts.append(f"# {wordset}")
     parts.append("")
     parts.append(f"Documented words: {len(docs)}")
     parts.append("")
@@ -862,7 +902,7 @@ def render_profile_wordset_page(
     ]
 
     parts: List[str] = []
-    parts.append(f"# Wordset {wordset}")
+    parts.append(f"# {wordset}")
     parts.append("")
     parts.append(f"Target: `{target}`  ")
     parts.append(f"Profile: `{profile}`")
@@ -895,6 +935,52 @@ def render_profile_wordset_page(
     return "\n".join(parts)
 
 
+def render_wordset_group_page(title: str, wordsets: List[str]) -> str:
+    parts: List[str] = []
+    parts.append(f"# {title}")
+    parts.append("")
+    if wordsets:
+        parts.append(f"Wordsets: {len(wordsets)}")
+        parts.append("")
+        parts.append("```{toctree}")
+        parts.append(":hidden:")
+        parts.append(":maxdepth: 1")
+        parts.append("")
+        for wordset in wordsets:
+            parts.append(wordset)
+        parts.append("```")
+    else:
+        parts.append("None")
+    return "\n".join(parts)
+
+
+def render_profile_wordset_group_page(
+    target: str,
+    profile: str,
+    title: str,
+    wordsets: List[str],
+) -> str:
+    parts: List[str] = []
+    parts.append(f"# {title}")
+    parts.append("")
+    parts.append(f"Target: `{target}`  ")
+    parts.append(f"Profile: `{profile}`")
+    parts.append("")
+    if wordsets:
+        parts.append(f"Wordsets: {len(wordsets)}")
+        parts.append("")
+        parts.append("```{toctree}")
+        parts.append(":hidden:")
+        parts.append(":maxdepth: 1")
+        parts.append("")
+        for wordset in wordsets:
+            parts.append(wordset)
+        parts.append("```")
+    else:
+        parts.append("None")
+    return "\n".join(parts)
+
+
 def render_target_index(target: str, profiles: List[str]) -> str:
     parts: List[str] = []
     parts.append(f"# Target {target}")
@@ -906,7 +992,9 @@ def render_target_index(target: str, profiles: List[str]) -> str:
     parts.append("")
 
     parts.append("```{toctree}")
+    parts.append(":hidden:")
     parts.append(":maxdepth: 2")
+    parts.append(":titlesonly:")
     parts.append("")
     for profile in profiles:
         parts.append(f"profile/{profile}/index")
@@ -915,6 +1003,7 @@ def render_target_index(target: str, profiles: List[str]) -> str:
 
 
 def render_root_index(targets: List[str], wordsets: List[str]) -> str:
+    forth_2012_wordsets, ec4th_wordsets = split_wordset_groups(wordsets)
     parts: List[str] = []
     parts.append("# ec4th Documentation")
     parts.append("")
@@ -925,7 +1014,9 @@ def render_root_index(targets: List[str], wordsets: List[str]) -> str:
     parts.append("")
 
     parts.append("```{toctree}")
+    parts.append(":hidden:")
     parts.append(":maxdepth: 2")
+    parts.append(":titlesonly:")
     parts.append("")
     for target in targets:
         parts.append(f"target/{target}/index")
@@ -933,15 +1024,20 @@ def render_root_index(targets: List[str], wordsets: List[str]) -> str:
     parts.append("")
     parts.append("## Wordsets")
     parts.append("")
-    for wordset in wordsets:
-        parts.append(f"- {wordset_doc_link(wordset)}")
+    if forth_2012_wordsets:
+        parts.append("- {doc}`Forth 2012 wordsets </wordset/forth-2012>`")
+    if ec4th_wordsets:
+        parts.append("- {doc}`ec4th wordsets </wordset/ec4th>`")
     parts.append("")
     parts.append("```{toctree}")
     parts.append(":hidden:")
-    parts.append(":maxdepth: 1")
+    parts.append(":maxdepth: 2")
+    parts.append(":titlesonly:")
     parts.append("")
-    for wordset in wordsets:
-        parts.append(f"wordset/{wordset}")
+    if forth_2012_wordsets:
+        parts.append("wordset/forth-2012")
+    if ec4th_wordsets:
+        parts.append("wordset/ec4th")
     parts.append("```")
     return "\n".join(parts)
 
@@ -995,6 +1091,33 @@ def main() -> int:
             for wordset in iter_wordsets(pw.doc):
                 words_by_wordset.setdefault(wordset, []).append(pw)
 
+        profile_wordsets = sorted(documented_by_wordset)
+        forth_2012_wordsets, ec4th_wordsets = split_wordset_groups(profile_wordsets)
+        if forth_2012_wordsets:
+            forth_2012_path = profile_dir / "wordset" / "forth-2012.md"
+            wanted_files.add(forth_2012_path)
+            write_text(
+                forth_2012_path,
+                render_profile_wordset_group_page(
+                    variant.target,
+                    variant.profile,
+                    "Forth 2012 wordsets",
+                    forth_2012_wordsets,
+                ),
+            )
+        if ec4th_wordsets:
+            ec4th_path = profile_dir / "wordset" / "ec4th.md"
+            wanted_files.add(ec4th_path)
+            write_text(
+                ec4th_path,
+                render_profile_wordset_group_page(
+                    variant.target,
+                    variant.profile,
+                    "ec4th wordsets",
+                    ec4th_wordsets,
+                ),
+            )
+
         for wordset, documented in documented_by_wordset.items():
             wordset_path = profile_dir / "wordset" / f"{wordset}.md"
             wanted_files.add(wordset_path)
@@ -1036,7 +1159,24 @@ def main() -> int:
         wanted_files.add(word_path)
         write_text(word_path, render_global_word_page(slug, occurrences, doc, see_groups.get(slug)))
 
-    for wordset in sorted(documented_by_wordset):
+    all_wordsets = sorted(documented_by_wordset)
+    forth_2012_wordsets, ec4th_wordsets = split_wordset_groups(all_wordsets)
+    if forth_2012_wordsets:
+        forth_2012_path = args.out_dir / "wordset" / "forth-2012.md"
+        wanted_files.add(forth_2012_path)
+        write_text(
+            forth_2012_path,
+            render_wordset_group_page("Forth 2012 wordsets", forth_2012_wordsets),
+        )
+    if ec4th_wordsets:
+        ec4th_path = args.out_dir / "wordset" / "ec4th.md"
+        wanted_files.add(ec4th_path)
+        write_text(
+            ec4th_path,
+            render_wordset_group_page("ec4th wordsets", ec4th_wordsets),
+        )
+
+    for wordset in all_wordsets:
         docs = sorted(
             documented_by_wordset[wordset],
             key=lambda x: (x.word.lower(), x.word, x.slug),

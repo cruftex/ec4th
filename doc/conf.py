@@ -19,3 +19,7 @@ project = "ec4th"
 exclude_patterns = ["_build"]
 
 html_theme = "alabaster"
+html_theme_options = {
+    "sidebar_collapse": False,
+    "sidebar_includehidden": True,
+}
